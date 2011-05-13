@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Classes javascript</title>
+
+		<link href="../../../static/css.css" rel="stylesheet" type="text/css">
+	    <link id="prettify-link" href="../../../static/prettify.css" rel="stylesheet" disabled="">
+	    <link href="../../../static/default.css" class="theme" rel="stylesheet">
+	  	
+	  	<link href="../../../static/dev.css" class="theme" rel="stylesheet">
+	  	<link href="../../../static/project.css" class="theme" rel="stylesheet">
+	    
+	    <script src="classes.js"></script>
+	</head>
+<body>
+	<div id="project">
+		<h1>Classes javascript</h1>
+		<h2>Présentation</h2>
+		<p>Nous allons construire un modèle objet simple de gestion de formes géométriques.</p>
+		<img alt="" src="../../images/shapes.png" style="width:300px;margin:0 250px;">
+		<p>Le diagramme de classes souhaité est le suivant.</p>
+		<img alt="" src="../../images/shapes-uml.png" style="width:300px;margin:0 250px;">
+		<p>Les ressources disponibles pour ce projet :</p>
+		<ul>
+			<li><a href="index.html">index.html</a> : ce fichier, il suffit de recharger cette page afin de tester le javascript</li>
+			<li><a href="classes.js" target="_blank">classes.js</a> : le fichier avec le code javascript</li>
+		</ul>
+		<h2>la classe Circle</h2>
+		<p>La classe Circle doit pouvoir éxécuter le code suivant et produire le bon résultat.</p>
+		<p>L'unique paramètre du constructeur est le rayon du cercle.</p>
+		<p>La classe Circle doit avoir une méthode area() qui retourne la surface du cercle.</p>
+		<pre><span id="code1">document.getElementById("result1").innerHTML = new Circle(2).area();</span></pre>
+		<button onclick="eval(document.getElementById('code1').innerHTML)">exécuter</button>
+		résultat=<span id="result1"></span>
+		<h2>la classe Rectangle</h2>
+		<p>La classe Rectangle possède la même méthode que Circle.</p>
+		<p>Les paramètres du constructeur sont largeur et hauteur.</p>
+		<pre><span id="code2">document.getElementById("result2").innerHTML = (new Rectangle(2, 3).area() == 6);</span></pre>
+		<button onclick="eval(document.getElementById('code2').innerHTML)">exécuter</button>
+		résultat=<span id="result2"></span>
+		<h2>L'héritage et la classe Shape</h2>
+		<p>La classe Rectangle et Circle ont des propriétés et des méthodes en commun.</p>
+		<p>Nous aimerions pouvoir positionner nos formes en implémentant la méthode setPosition(x, y) qu'une seule fois.</p>
+		<p>Nous allons donc créer la classe Shape dont héritent Circle et Rectangle.</p>
+		<p>Nous devons donc pouvoir écrire :</p>
+		<pre>
+new Shape().setPosition(10, 10);
+new Circle(10).setPosition(10, 10);</pre>
+		<p>Il existe plusieurs façons de mettre en oeuvre de l'hérirage si on cherche "<a href="http://www.google.fr#q=javascript inheritance" class="external" target="_blank">javascript inheritance</a>" sous google.</p>
+		<p>2 tutoriaux possibles : 
+			<a href="http://phrogz.net/js/classes/OOPinJS2.html" class="external" target="_blank">OOP in JS, Part 2 : Inheritance</a> et
+			<a href="http://robertnyman.com/2008/10/06/javascript-inheritance-how-and-why/" class="external" target="_blank">JavaScript Inheritance – How And Why</a> 
+		</p>
+		<p>Le code suivant doit donc fonctionner avec de l'héritage.</p>
+		<pre><span id="code3">circle = new Circle(10);
+circle.setPosition(10, 20);
+document.getElementById("result3").innerHTML = (circle.x == 10);</span></pre>
+		<button onclick="eval(document.getElementById('code3').innerHTML)">exécuter</button>
+		résultat=<span id="result3"></span>
+		<p>En pratique, des frameworks comme <a href="http://api.jquery.com/jQuery.extend#deeptargetobject1objectN" class="external" target="_blank">jquery</a>
+		 ou <a href="http://www.prototypejs.org/learn/class-inheritance" class="external" target="_blank">prototype</a> permettent de simplifier la création d'arborescence de classes.</p>
+		<h2>Le dessin dans un Canvas</h2>
+		<p>Un <a href="https://developer.mozilla.org/en/Canvas_tutorial" class="external" target="_blank">canvas</a> est élément html définissant une zone graphique rectangulaire dans laquelle il est possible de dessiner en 2d et 3d.</p>
+		<p>Le dessin dans le canvas se fait en javascript en récupérant un <a href="https://developer.mozilla.org/fr/Dessiner_avec_canvas" class="external" target="_blank">contexte graphique.</a></p>
+		<pre>
+var canvas = document.getElementById('canvas');
+var context = canvas.getContext('2d');</pre>
+		<p>Nous pouvons donc ajouter une méthode paint à nos classes et <a href="https://developer.mozilla.org/en/Canvas_tutorial/Drawing_shapes" class="external" target="_blank">déssiner des formes dans le canvas.</a></p>
+		<pre><span id="code4">var canvas = document.getElementById('canvas1');
+var context = canvas.getContext('2d');
+context.fillStyle = "white";
+rectangle = new Rectangle(100, 50);
+rectangle.setPosition(450, 100);
+rectangle.paint(context);
+circle = new Circle(50);
+circle.setPosition(300, 125);
+circle.paint(context);</span></pre>
+		<button onclick="eval(document.getElementById('code4').innerHTML)">exécuter</button>
+		<canvas id="canvas1" class="blackboard" width="840px" height="300px"></canvas>
+		<h2>Un peu d'animation</h2>
+		<p><a href="https://developer.mozilla.org/en/Canvas_tutorial/Basic_animations" class="external" target="_blank">Une boucle d'animation</a> est simple à mettre en place.</p>
+		<pre><span id="code5">if (!document._circle) { // initialise la forme et l'attache au document
+  circle = new Circle(25);
+  circle.setPosition(300, 125);
+  
+  document._circle = circle;
+}
+
+function animate() { // boucle d'animation
+  var canvas = document.getElementById('canvas2');
+  var context = canvas.getContext('2d');
+  context.fillStyle = "white";
+  
+  context.clearRect(0, 0, 840, 300); // efface tout le contenu
+  updateState(document._circle); // déplace le cercle (à implémenter)
+  circle.paint(context); // dessine le cercle
+}
+
+if (document._timer) { // démarre ou arrête le timer
+  clearInterval(document._timer);
+  document._timer = null;
+} else {
+  document._timer = setInterval(animate,50); // appelle animate toutes les 500 ms
+}</span></pre>
+		<button onclick="eval(document.getElementById('code5').innerHTML)">exécuter</button>
+		<canvas id="canvas2" class="blackboard" width="840px" height="300px"></canvas>
+		<p>Un tutorial plus complet pour ce genre d'animation avec <a href="http://billmill.org/static/canvastutorial/index.html" class="external" target="_blank">un jeu de balle</a></p>
+		<h2>Pour aller plus loin</h2>
+		<p>Le canvas est capable de faire de la 3d : </p>
+		<ul>
+			<li><a href="http://9elements.com/io/projects/html5/canvas/" class="external" target="_blank">HTML5 Canvas Experiment</a></li>
+			<li><a href="http://www.pirateslovedaisies.com/" class="external" target="_blank">Pirates Love Daisies</a></li>
+			<li><a href="http://labs.hyperandroid.com/mathmayhem" class="external" target="_blank">Math Mayhem</a></li>
+			<li><a href="http://muro.deviantart.com/" class="external" target="_blank">Deviantart drawing tool</a></li>
+			<li><a href="http://www.effectgames.com/demos/canvascycle/" class="external" target="_blank">Effect Games</a></li>
+			<li><a href="http://www.tapper-ware.net/blog/?p=139" class="external" target="_blank">Voiture en 3D</a></li>
+		</ul>
+		<p>Et beaucoup d'autres sur <a href="http://www.canvasdemos.com/" class="external" target="_blank">canvas demo</a></p>
+		<p>Les versions récentes de Firefox, Safari, Chrome et Opera supportent les canvas.</p>
+		<p>Internet Explorer supportera les canvas dans sa version 9.</p>
+	</div>
+</body>
+</html>

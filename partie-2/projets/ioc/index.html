@@ -1,0 +1,310 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Application spring</title>
+
+		<link href="../../../static/css.css" rel="stylesheet" type="text/css">
+	    <link id="prettify-link" href="../../../static/prettify.css" rel="stylesheet">
+	    <link href="../../../static/default.css" class="theme" rel="stylesheet">
+	  	
+	  	<link href="../../../static/dev.css" class="theme" rel="stylesheet">
+	  	<link href="../../../static/project.css" class="theme" rel="stylesheet">
+	    
+	</head>
+	<body>
+		<div id="project">
+			<h1>Application spring</h1>
+			<h2>Présentation</h2>
+			<p>Nous allons utiliser ce template de projet afin de se familiariser avec le conteneur spring.</p>
+			<h2>Les outils utilsés :</h2>
+			<ul>
+				<li><a href="http://eclipse.org" class="external" target="_blank">eclipse</a> : un IDE gratuit pour java (et beaucoup d'autres langages)
+			</ul>
+			<h2>Les ressources disponibles pour ce projet :</h2>
+			<ul>
+				<li>eclipse : le répertoire contenant le projet eclipse
+				<li>index.html : ce fichier
+				<li>images : les images de cette page web
+			</ul>
+			<p>Le projet a été créé en utilisant le menu File &gt; New... &gt; java Project</p>
+			<h2>La mise en place du projet</h2>
+			<ol>
+				<li>Ouvrir eclipse
+				<li>Importer le projet (File &gt; Import)
+			</ol>
+			<h2>Le projet eclipse</h2>
+			<p>Sous eclipse, le projet ressemble à l'arborescence suivante</p>
+			<img alt="" src="images/eclipse-ioc.png" style="float:left;margin:10px 10px;">
+			<ul>
+				<li>src : les classes java
+				<li>fr.prez.ioc : le package java avec les sources
+				<li>Main.java : la classe contenant la méthode main
+				<li>SampleBean.java : un bean d'exemple
+				<li>spring-context.xml : le descripteur du contexte spring
+				<li>lib : les librairies pour ce projets (modules spring et dépandances)
+				<li>solr : le répertoire de configuration de solr
+			</ul>
+			<h2>La classe Main</h2>
+			<p>La classe charge le contexte spring.</p>
+			<pre>
+public class Main {
+   public static final void main(String[] args) {
+      String location = "fr/prez/ioc/spring-context.xml";
+		
+      ApplicationContext context = new ClassPathXmlApplicationContext(location);
+   }
+}</pre>
+			<h2>Le contexte spring</h2>
+			<p>Le contexte spring fait le strict minimum afin de bénificier des options suivantes :</p>
+			<ul>
+				<li>Détection des annotations dans les objets
+				<li>Détection des composants dans fr.prez.ioc
+				<li>Détection et création des proxy aop
+			</ul>
+			<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans ...&gt;
+   &lt;context:annotation-config /&gt;
+   &lt;context:component-scan base-package="fr.prez.ioc" /&gt;
+   &lt;aop:aspectj-autoproxy /&gt;
+&lt;/beans&gt;</pre>
+			<h2>La classe SampleBean</h2>
+			<p>Cette classe est automatiquement instanciée par spring par la détection de composants.</p>
+			<pre>
+@Component
+public class SampleBean {
+   @PostConstruct
+   public void sayHello() {
+      System.out.println("Hi");
+   }
+}</pre>
+			<p>Les annotations @PostConstruct et @PreDestroy sont supportées par spring</p>
+			<p>Cela permet à notre bean de dire bonjour au démarrage de l'application.</p>
+			<h2>Un moteur de recherche</h2>
+			<p>Nous allons construire un moteur de recherche web simple.</p>
+			<p>Un moteur de recherche fonctionne en 2 temps :</p>
+			<ul>
+				<li>crawling et indexation : ajout de document dans l'index
+				<li>recherche : parcours des docuements dans l'index
+			</ul>
+			<p>Pour nous aider, nous allons utiliser les outils suivants :</p>
+			<ul>
+				<li><a href="http://htmlcleaner.sourceforge.net/index.php" class="external" target="_blank">htmlcleaner</a> : un parseur html
+				<li><a href="http://lucene.apache.org/solr/" class="external" target="_blank">solr</a> : un moteur de recherche construit sur <a href="http://lucene.apache.org/" class="external" target="_blank">Lucene</a>
+			</ul>
+			<h2>Les composants</h2>
+			<p>Voici les composants ne sont souhaitons mettre en place.</p>
+			<img alt="" src="images/components.png" width="600px" style="margin:0 100px">
+			<ul>
+				<li>Main : la classe qui lance le crawling
+				<li>Search : la classe qui permet de faire des recherches
+				<li>Crawler : l'algorithme de parcours des documents
+				<li>Fetcher : la récupération des données
+				<li>SolrServer : la lecture et écriture dans l'index
+			</ul>
+			<h2>Le serveur solr</h2>
+			<p>Afin de pouvoir utiliser solr, nous allons mettre en place un <a href="http://wiki.apache.org/solr/Solrj#EmbeddedSolrServer" class="external" target="_blank">serveur solr embarqué</a></p>
+			<p>La solution recommandée est d'installer un serveur solr indépendant (requêtes en http) mais la solution embarquée convient pour notre petit test.</p>
+			<p>La documentation de solrj, indique qu'un serveur embeddé se déclare comme suit.</p>
+			<pre>
+// Note that the following property could be set through JVM level arguments too
+System.setProperty("solr.solr.home", "/path/to/solr/home");
+CoreContainer.Initializer initializer = new CoreContainer.Initializer();
+CoreContainer coreContainer = initializer.initialize();
+EmbeddedSolrServer server = new EmbeddedSolrServer(coreContainer, "");</pre>
+			<p>Il nous suffit donc de transcrire cette configuration avec spring.</p>
+			<pre>
+@Configuration
+public class SpringConfiguration {
+   @Bean
+   public SolrServer solrServer() throws Exception {
+      System.setProperty("solr.solr.home", "./solr");
+      CoreContainer.Initializer initializer = new CoreContainer.Initializer();
+      CoreContainer coreContainer = initializer.initialize();
+      return new EmbeddedSolrServer(coreContainer, "");
+   }
+}</pre>
+			<p>Si on démarre notre application, un répertoire data se crée dans le répertoire solr.</p>
+			<h2>La configuration de solr</h2>
+			<p>La configuration de solr est dans le répertoire solr/conf.</p>
+			<ul>
+				<li><a href="http://wiki.apache.org/solr/SolrConfigXml" class="external" target="_blank">solrconfig.xml</a> : la configuration du moteur
+				<li><a href="http://wiki.apache.org/solr/SchemaXml" class="external" target="_blank">schema.xml</a> : la définition des champs des documents indéxés
+				<li>stopwords.txt : la liste des mots à exclure lors de l'indexation
+				<li>synonyms.txt : la liste des synonymes
+				<li>protwords.txt : la liste des mots protégés qui ne seront pas transformés
+			</ul>
+			<p>La partie qui nous interesse du schema.xml et qui définit 3 champs : url, lastModified et text.</p>
+			<pre>
+&lt;fields&gt;
+  &lt;field name="url" type="string" indexed="true" stored="true" required="true" /&gt;
+  &lt;field name="last_modified" type="date" indexed="true" stored="true"/&gt;
+  &lt;field name="text" type="text" indexed="true" stored="true"/&gt;
+&lt;/fields&gt;</pre>
+			<p>En conséquence, nous allons créer la classe suivante, qui représente une ressource du web.</p>
+			 <pre>
+public class WebDocument {
+   @Field
+   private String url;
+
+   @Field("last_modified")
+   private Date lastModified;
+
+   @Field
+   private String text;
+
+   public String getUrl() {
+      return url;
+   }
+
+   public void setUrl(String url) {
+      this.url = url;
+   }
+
+   public Date getLastModified() {
+      return lastModified;
+   }
+
+   public void setLastModified(Date lastModified) {
+      this.lastModified = lastModified;
+   }
+
+   public String getText() {
+      return text;
+   }
+
+   public void setText(String text) {
+      this.text = text;
+   }
+}</pre>
+			<p>Les champs ont été annotés avec @Field afin que solrj puisse facilement ajouter ces objets dans l'index.</p>
+			<h2>Un test unitaire</h2>
+			<p>Nous allons vérifier que notre configuration fonctionne bien en créant un test unitaire.</p>
+			<p>On ajoute donc la classe SolrTest dans le package fr.prez.ioc du répertoire test.</p>
+			<pre>
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = "spring-context.xml")
+public class SolrTest {
+   @Inject
+   private SolrServer solrServer;
+	
+   @Before
+   public void clear() throws Exception {
+      solrServer.deleteByQuery("*:*");
+   }
+	
+   @Test
+   public void addBean() throws Exception {
+      WebDocument webDocument = new WebDocument();
+      webDocument.setUrl("http://monsite.fr");
+      webDocument.setLastModified(new Date());
+      webDocument.setText("some text");
+      
+      solrServer.addBean(webDocument);
+      solrServer.commit();
+   }
+   
+   @Test
+   public void query() throws Exception {
+      addBean();
+      
+      SolrQuery query = new SolrQuery();
+      query.setQuery( "*:*" );
+      
+      QueryResponse response = solrServer.query(query);
+       
+      Assert.assertEquals(1, response.getResults().size());
+      Assert.assertEquals("some text",
+         response.getBeans(WebDocument.class).get(0).getText());
+   }
+}</pre>
+			<p>Pour ce test, nous réutilisons le contexte spring défini précédemment (spring-context.xml).</p>
+			<p>Sous eclipse, on lance un test unitaire via le menu Run &gt; Run as &gt; Junit Test</p>
+			<img alt="" src="images/solrtest-junit.png">
+			<h2>La récupération de contenu</h2>
+			<p>La seconde brique a mettre en place est la récupération des contenus.</p>
+			<p>C'est la responsabilité de la classe Fetcher qui va utiliser htmlcleaner.</p>
+			<p>En se basant sur la <a href="http://htmlcleaner.sourceforge.net/doc/index.html" class="external" target="_blank">javadoc</a> et sur la <a href="http://htmlcleaner.sourceforge.net/javause.php" class="external" target="_blank">documentation de htmlcleaner</a>, il faut implémenter les méthodes suivantes.</p>
+			<pre>
+@Component
+public class Fetcher {
+   <span class="comment">// récupère le contenu texte de la page</span>
+   public String getText(String url) throws Exception {
+   ...
+   }
+   
+   <span class="comment">// récupère tous les liens dans la page</span>
+   public List<String> getLinks(String url) throws Exception {
+   ...
+   }
+}</pre>
+			<h2>Le crawling</h2>
+			<p>La classe Crawler va utiliser le Fetcher et le SolrServer afin d'indexer les documents.</p>
+			<p>Voici une ébauche du code de crawling.
+			<pre>
+@Component
+public class Crawler {
+   public void crawl(String url) throws Exception {
+      // indexer le document de présent sur l'url
+      
+      // faire une pause de 50 ms
+      Thread.sleep(50);
+      
+      // construire les liens et indexer les documents
+   }
+}
+</pre>
+			<p>Cet algorithme est très simple et a de multiples défauts.</p>
+			<ul>
+				<li>Il boucle à l'infini
+				<li>Il parcours plusieurs fois la même url sans s'en rendre compte
+				<li>Si on l'arrête, il repart du début
+				<li>Des urls similaires (http://monsite.fr et http://monsite.fr/) sont indexés
+				<li>Il crawl à partir de la première url de chaque page et donc part très rapidement de chaque site. Maintenir une pile d'urls à crawler serait sans doute plus efficace.
+			</ul>
+			<p>La méthode suivante, par exemple, pourrait nous aider a palier à un des problème.</p>
+			<pre>
+public boolean isInIndex(String url) throws Exception {
+   SolrQuery query = new SolrQuery("url:" + ClientUtils.escapeQueryChars(url));
+   
+   return solrServer.query(query).getResults().getNumFound() != 0;
+}</pre> 
+			<p>Cette liste pourrait s'étirer sur des pages avant que l'on arrive à un moteur utilisable.</p>
+			<h2>Le bootstap et la recherche</h2>
+			<p>Tout nos composants sont en place, il ne reste plus qu'a initialiser le crawling via la class Main.</p>
+			<pre>
+public static final void main(String[] args) throws Exception {
+   String location = "fr/prez/ioc/spring-context.xml";
+   
+   ApplicationContext context = new ClassPathXmlApplicationContext(location);
+   
+   context.getBean(Crawler.class).crawl("http://monsite.fr");
+}</pre>
+			<p>Et bien sûr de créer une classe Search pour la recherche.</p>
+			<pre>
+public class Search {
+   public static final void main(String[] args) throws Exception {
+      String location = "fr/prez/ioc/spring-context.xml";
+      
+      ApplicationContext context = new ClassPathXmlApplicationContext(location);
+      
+      SolrQuery query = new SolrQuery("ma query");
+      
+      QueryResponse response = context.getBean(SolrServer.class).query(query);
+      
+      System.out.println("Found " + response.getResults().getNumFound()
+              + " documents");
+      
+      for (WebDocument doc : response.getBeans(WebDocument.class)) {
+         System.out.println(doc.getUrl());
+      }
+   }
+}</pre>
+			<h2>A partir de la</h2>
+			<p>Indexation des images ? du javascript ?</p>
+			<p>Que faudrait il stoquer de plus afin de pouvoir afficher une page de résultats de recherche ?</p>
+			<p>Quel algorithme afin de tenir les documents à jour ?</p>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,31 @@
+#calculator {
+	margin: 0pt auto;
+	width: 211px;
+	border: 2px solid #000;
+	padding: 3px;
+}
+
+#calculator .result {
+	padding-right: 5px;
+	border: 1px solid #000;
+	text-align: right;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+#calculator .digits span {
+	display: inline-block;
+	padding: 12px;
+	margin: 3px 3px 0 0;
+	border: 1px solid #000;
+	cursor: pointer;
+	list-style: none;
+	text-align: center;
+	width: 20px;
+	height: 20px;
+}
+
+#calculator .digits span.empty {
+	height: 0;
+	border: 0;
+}

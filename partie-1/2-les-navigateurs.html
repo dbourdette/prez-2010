@@ -1,0 +1,1296 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+	    <title>Les mécaniques des navigateurs</title>
+	    
+		<link href="../static/css.css" rel="stylesheet" type="text/css">
+	    <link id="prettify-link" href="../static/prettify.css" rel="stylesheet" disabled="">
+	    <link href="../static/moon.css" class="theme" rel="stylesheet">
+	    <link href="../static/sand.css" class="theme" rel="stylesheet">
+	    <link href="../static/sea_wave.css" class="theme" rel="stylesheet">
+	    <link href="../static/default.css" class="theme" rel="stylesheet">
+	  	
+	    <link href="../static/dev.css" class="theme" rel="stylesheet">
+	    
+	    <script src="../static/jquery/jquery-1.4.4.min.js"></script>
+	    <script src="../static/jquery/jquery.xcolor.js"></script>
+	    <script src="../static/jquery/jquery.validate.js"></script>
+	    <link type="text/css" href="../static/jquery/smoothness/jquery-ui-1.8.7.custom.css" rel="stylesheet" />	
+	    <script src="../static/jquery/jquery-ui-1.8.7.custom.min.js"></script>
+	    <script type="text/javascript">
+	    	jQuery.fn.outerHTML = function(s) {
+	  		return (s)
+	  		? this.before(s).remove()
+	  		: jQuery("<p>").append(this.eq(0).clone()).html();
+	  		}
+	    </script>
+	    
+	    <script src="../static/code.js"></script>
+	    <script src="../static/prettify.js" onload="prettyPrint();"></script>
+	    <script src="../static/js"></script>
+   		<script src="../static/main.js" type="text/javascript"></script>
+	    
+	    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  	</head>
+  	<body>
+    <div class="presentation">
+      <div id="presentation-counter">Chargement...</div>
+      <div style="display: block;" class="slides">
+	      <div class="slide">
+			<style>
+			  #landing-slide p {
+			    font-size: 35px;
+			  }
+			</style>
+			<section id="landing-slide" class="middle">
+			  <p>Les mécaniques des navigateurs</p>
+			</section>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Définition</header>
+	        <section>
+	          <p>Un navigateur est une <b>application cliente</b> capable d'aller chercher et d'afficher des ressources disponibles sur le web.</p>
+	          <p>Une ressource peut être une page web, une image, une vidéo et beaucoup d'autres choses.</p>
+	          <p>Tous les browsers modernes sont très proches en interface et ergonomie:</p>
+	          <img alt="" src="images/browser.gif" style="float:left;margin:0 10px;">
+	          <ul>
+	          	<li>Une barre d'adresse afin de saisir une URL.</li>
+	          	<li>Boutons back, forward, refresh, stop et home.</li>
+	          	<li>La zone de rendu afin d'afficher la ressource.</li>
+	          	<li>Un accès rapide à un moteur de recherche.</li>
+	          	<li>Un gestion de bookmarks.</li>
+	          	<li>Une barre de status affichant les téléchargements en cours.</li>
+	          </ul>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Web_browser</p>
+	      </div>
+	      
+	      <div class="slide">
+			<header>Les principaux navigateurs</header>
+			<section>
+				<p>Il existe un nombre importants de navigateurs mais les principaux sont :</p>
+				<ul>
+					<li style="line-height:40px;"><img src="images/ie.png" alt="" width="40" style="margin:0 10px;float:left;"/>Internet Explorer</li>
+					<li style="line-height:40px;"><img src="images/firefox.png" alt="" width="40" style="margin:0 10px;float:left;"/>Firefox</li>
+					<li style="line-height:40px;"><img src="images/safari.png" alt="" width="40" style="margin:0 10px;float:left;"/>Safari</li>
+					<li style="line-height:40px;"><img src="images/chrome.png" alt="" width="40" style="margin:0 10px;float:left;"/>Chrome</li>
+					<li style="line-height:40px;"><img src="images/opera.png" alt="" width="40" style="margin:0 10px;float:left;"/>Opera</li>
+				</ul>
+				<p>Ils ont tous des lacunes par rapports aux standards et possèdent leurs propres extensions.</p>
+				<p>Après une période de divergences, les acteurs travaillent au développement du HTML 5.</p>
+			</section>
+			<p class="source">http://en.wikipedia.org/wiki/Comparison_of_web_browsers</p>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Mécanique d'une requête</header>
+	        <section>
+	          <ul>
+	            <li>La première requête permer de récupérer le HTML.</li>
+	            <li>Chaque ressource référencée dans la page est récupéré : images, css, javascript...</li>
+	            <li>Chaque élément de la page est affiché dès que possible (<a href="http://en.wikipedia.org/wiki/Incremental_rendering" class="external" target="_blank">incremental rendering</a>)</li>
+	            <li>Le javascript récupéré est exécuté</li>
+	          </ul>
+	          <img src="images/web-request.png" width="700px" style="margin:0 70px;"/>   
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Composition d'une url</header>
+	        <section>
+	          <p style="font-size:18px;">http://username:password@www.domain.com:8888/chemin/page.html?q=req&q2=req2#fragment_id</p>
+	          <table class="refTable">
+	          	<thead>
+	          		<tr>
+	          			<td>partie</td>
+	          			<td>description</td>
+	          		</tr>
+	          	</thead>
+	          	<tr>
+	          		<td>http</td>
+	          		<td>le scheme name</td>
+	          	</tr>
+	          	<tr>
+	          		<td>://</td>
+	          		<td>séparateur obligatoire après le scheme</td>
+	          	</tr>
+	          	<tr>
+	          		<td>username:password@</td>
+	          		<td>authentification (optionnel)</td>
+	          	</tr>
+	          	<tr>
+	          		<td>www.domain.com</td>
+	          		<td>Nom de domaine</td>
+	          	</tr>
+	          	<tr>
+	          		<td>:8888</td>
+	          		<td>port si il n'est pas celui par défaut du scheme (optionnel)</td>
+	          	</tr>
+	          	<tr>
+	          		<td>/chemin/page.html</td>
+	          		<td>le chemin de la resource sur le serveur</td>
+	          	</tr>
+	          	<tr>
+	          		<td>?q=req&q2=req2</td>
+	          		<td>les paramètres (clés / valeurs) supplémentaires exploitables coté serveur (query string) (optionnel)</td>
+	          	</tr>
+	          	<tr>
+	          		<td>#fragment_id</td>
+	          		<td>identifiant d'une sous partie de la ressource (optionnel)</td>
+	          	</tr>
+	          </table>
+	          <p>Quelques exemples :</p>
+	          <p>http://www.google.fr/</p>
+	          <p>http://www.google.fr/#hl=fr&source=hp&q=steven&aq=f&aqi=g10&aql=&oq=&gs_rfai=</p>
+	          <p>http://www.bing.com/search?q=steven&go=&form=QBLH&filt=all&qs=n&sk=</p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Uniform_Resource_Locator</a> (Wikipedia)</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>URL, URN et URI</header>
+	        <section>
+	          <p><b>Une URI</b> (Uniform Resource Identifier) <b>est un format</b> de la forme {scheme}:{address}.</p>
+	          <p><b>Une URL</b> (Uniform Resource Locator) identifie l'emplacement d'une ressource (ex : http://google.com).
+	          <br/>Elle <b>peut devenir obsolète</b> (ex : suppression d'une page web)</p>
+	          <p><b>Une URN</b> (Uniform Resource Name) identifie la ressource en elle même (ex : urn:isbn:0486275574).
+	          <br/>Elle <b>ne peut jamais être altérée</b> (même si une personne change d'adresse, elle reste la même)</p>
+	          <p>Les URN et les URL sont des URI.</p>
+	          <p>En pratique on parle d'URI et d'URL indifférement alors que les URN sont inutilisées.</p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/URI_scheme</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Exemples de Schemes</header>
+	        <section>
+	        	<p>Voici quelques exemples de schemes</p>
+	        	<table class="refTable">
+	        		<thead>
+	        			<tr>
+	        				<td>scheme</td>
+	        				<td>description</td>
+	        			</tr>
+	        		</thead>
+	        		<tr>
+	        			<td>http</td>
+	        			<td>HyperText Transfer Protocol, protocol standard pour le web (port 80)</td>
+	        		</tr>
+	        		<tr>
+	        			<td>https</td>
+	        			<td>secured http, chiffrement par dessus le http (port 443)</td>
+	        		</tr>
+	        		<tr>
+	        			<td>ftp</td>
+	        			<td>File Tranfert Protocol pour l'échange de fichiers (port 21)</td>
+	        		</tr>
+	        		<tr>
+	        			<td>file</td>
+	        			<td>accès au file system</td>
+	        		</tr>
+	        		<tr>
+	        			<td>smb</td>
+	        			<td>accès à un système de fichiers partagés via samba</td>
+	        		</tr>
+	        		<tr>
+	        			<td>mailto</td>
+	        			<td>délègue le traitement au gestionnaire de mail</td>
+	        		</tr>
+	        	</table>
+	        	<p>L'installation de plugins ou logiciels peut apporter le support de nouveaux schemes non officiels</p>
+	        	<table class="refTable">
+	        		<thead>
+	        			<tr>
+	        				<td>scheme</td>
+	        				<td>description</td>
+	        			</tr>
+	        		</thead>
+	        		<tr>
+	        			<td>itms</td>
+	        			<td>connexion à l'itunes music store</td>
+	        		</tr>
+	        		<tr>
+	        			<td>lastfm</td>
+	        			<td>connexion aux radios de lastfm</td>
+	        		</tr>
+	        		<tr>
+	        			<td>spotify</td>
+	        			<td>Chargement d'un son dans spotify</td>
+	        		</tr>
+	        	</table>
+	        	<p>Cela permet notamment d'intégrer des hyperliens vers des services dans les pages webs.</p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Historique de navigation</header>
+	        <section>
+	        	<p>A chaque changement d'url, le navigateur enregistre une entrée dans l'historique.</p>
+	        	<p>Il est possible d'intercepter les <a href="http://www.w3.org/TR/html5/history.html#event-hashchange" class="external" target="_blank">événements de changement de fragment</a> dans l'url.</p>
+	        	<pre>http://domain.com/#state1 -> http://domain.com/#state2</pre>
+	        	<p>Dans les applications riches, le fragment peut donc aussi être vu comme un token d'état.</p>
+	        	<p>Les boutons back et forward permettent alors de naviguer entre les états de l'application.</p>
+	        	<p>Par extension, il est aussi possible d'arriver dans l'application avec un état donné via un lien ou un bookmark.</p>
+	        	<p>Par exemple avec le framework jquery</p>
+	        	<pre>$(window).bind('hashchange', function(){
+  alert(location.hash);
+});</pre>
+				<p>D'autres exemples avec d'autres frameworks : 
+				<a href="http://developer.yahoo.com/yui/history/" class="external" target="_blank">yahoo ui</a> et
+				<a href="http://code.google.com/intl/fr/webtoolkit/doc/latest/DevGuideCodingBasicsHistory.html" class="external" target="_blank">gwt</a>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Un exemple de HTML</header>
+	        <section>
+	        	<p>Voici un exemple simple de HTML avec une feuille de style et un include javascript.</p>
+<pre class="prettyprint">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;title&gt;a simple page&lt;/title&gt;
+    &lt;link href="<b>includes/style.css</b>" type="text/css" rel="stylesheet" /&gt;
+    &lt;script src="<b>includes/javascript.js</b>" type="text/javascript" &gt;&lt;/script&gt;
+  &lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;Hello !&lt;/p&gt;
+    &lt;ul&gt;
+      &lt;li&gt;Item 1&lt;/li&gt;
+      &lt;li&gt;Item 2&lt;/li&gt;
+      &lt;li&gt;Item 3&lt;/li&gt;
+      &lt;li&gt;Item 4&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;
+</pre>
+				<p>Le HTML étant très verbeux, les fichiers tendent à être assez volumineux.</p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>L'arbre DOM</header>
+	        <section>
+	        	<p>Une fois le document HTML chargé, la structure arborescente des tags est appelé arbre DOM, comme pour un document XML.</p>
+	        	<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;&lt;title&gt;a simple page&lt;/title&gt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;p&gt;Hello !&lt;/p&gt;
+    &lt;ul&gt;&lt;li&gt;Item 1&lt;/li&gt;&lt;li&gt;Item 2&lt;/li&gt;&lt;/ul&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+	        	<img alt="" src="images/dom.png">
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Quelques tags</header>
+	        <section>
+	        	<p>Voici quelques tags et leur signification.</p>
+	        	<table class="refTable">
+	        		<tr>
+	        			<td>html</td><td>tag racine d'un document html</td>
+	        		</tr>
+	        		<tr>
+	        			<td>head</td><td>conteneur des élements du head (imports, déclarations...)</td>
+	        		</tr>
+	        		<tr>
+	        			<td>body</td><td>conteneur du contenu du document</td>
+	        		</tr>
+	        		<tr>
+	        			<td>div</td><td>division dans un document</td>
+	        		</tr>
+	        		<tr>
+	        			<td>p</td><td>paragraphe</td>
+	        		</tr>
+	        		<tr>
+	        			<td>span</td><td>découpage d'une partie d'un texte afin d'y appliqué un style</td>
+	        		</tr>
+	        		<tr>
+	        			<td>table</td><td>un tableau</td>
+	        		</tr>
+	        		<tr>
+	        			<td>tr</td><td>une ligne d'un tableau</td>
+	        		</tr>
+	        		<tr>
+	        			<td>td</td><td>une cellule d'une lighne d'un tableau</td>
+	        		</tr>
+	        		<tr>
+	        			<td>ul</td><td>liste non ordonnancée</td>
+	        		</tr>
+	        		<tr>
+	        			<td>ol</td><td>liste ordonnancée</td>
+	        		</tr>
+	        		<tr>
+	        			<td>li</td><td>élément de liste</td>
+	        		</tr>
+	        	</table>
+	        </section>
+	      </div>
+	      
+	      <div class="slide">
+	      	<style>
+	      		#html4_sample {
+	      			font-size:14px;
+	      		}
+	      	</style>
+	        <header>HTML et XHTML</header>
+	        <section>
+<pre id="html4_sample">
+&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"&gt;
+&lt;title&gt;Exemple HTML 4&lt;/title&gt;
+&lt;ul&gt;
+&lt;li&gt;
+  Des éléments comme HTML, HEAD et BODY sont implicites,
+  leurs balises ouvrantes et fermantes sont optionnelles.
+&lt;/li&gt;
+&lt;li&gt;
+  De nombreuses balises fermantes sont optionnelles,
+  notamment pour P (paragraphe) et LI (entrée de liste).
+&lt;li&gt;
+  Les noms d'éléments et d'attributs peuvent &lt;<b>EM Class</b>="important"&gt;librement&lt;/<b>Em</b>&gt;
+  mélanger majuscules et minuscules.&lt;/li&gt; &lt;li&gt;Certains attributs ont une valeur par défaut
+  &lt;input type="checkbox" <b>checked</b> value="..."&gt;.
+&lt;/li&gt;
+&lt;li&gt;
+  Les guillemets ne sont pas &lt;em class=<b>important</b>&gt;toujours&lt;/em&gt;
+  obligatoires autour des valeurs d'attribut.
+&lt;/li&gt;
+&lt;li&gt;Les éléments vides n'ont pas de syntaxe fermante &lt;img src="i.png" alt="i"&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+</pre>	        
+	        </section>
+	        <p class="source">http://fr.wikipedia.org/wiki/Extensible_HyperText_Markup_Language</p>
+	      </div>
+	      
+	      <div class="slide">
+	      	<style>
+	      		#xhtml_sample {
+	      			font-size:14px;
+	      		}
+	      	</style>
+	        <header>HTML et XHTML</header>
+	        <section>
+<pre id="xhtml_sample">
+&lt;!DOCTYPE html PUBLIC "-//W3C//DTD <b>XHTML 1.0 Strict//EN"
+ "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"</b>&gt;
+<b>&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+&lt;head&gt;</b>
+&lt;title&gt;Exemple XHTML 1.0&lt;/title&gt;
+<b>&lt;/head&gt;
+&lt;body&gt;</b>
+&lt;ul&gt;
+&lt;li&gt;Tous les éléments doivent être explicitement balisés.&lt;/li&gt;
+&lt;li&gt;Les balises fermantes ne sont pas optionnelles.<b>&lt;/li&gt;</b>
+&lt;li&gt;
+  Les noms d'éléments et d'attributs &lt;em class="important"&gt;doivent&lt;/em&gt;
+  être en minuscules.
+&lt;/li&gt;
+&lt;li&gt;
+  Tous les attributs doivent avoir une valeur explicite
+  &lt;input type="checkbox" checked="<b>checked</b>" value="..." /&gt;.
+&lt;/li&gt;
+&lt;li&gt;
+  Les guillemets sont &lt;em class="important"&gt;toujours&lt;/em&gt;
+  obligatoires autour des valeurs d'attribut.
+&lt;/li&gt;
+&lt;li&gt;Les éléments vides doivent être fermés &lt;img src="i.png" alt="i"<b>/</b>&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+<b>&lt;/body&gt;
+&lt;/html&gt;</b>
+</pre>	        
+	        </section>
+	        <p class="source">http://fr.wikipedia.org/wiki/Extensible_HyperText_Markup_Language</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>L'encoding</header>
+	        <section>
+	        	<p>La déclaration d'encoding (charset) se fait dans le head d'un document html.</p>
+	        	<pre>&lt;meta http-equiv="Content-Type" content="text/html; charset=utf-8"&gt;</pre>
+	        	<p>Et dans le prologue d'un document XHTML</p>
+	        	<pre>&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;</pre>
+	        	<p>En pratique, l'endoding pris en compte par le navigateur est la résultante de différentes sources, dont la déclaration d'encoding fait partie.</p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Character_encodings_in_HTML</p>
+	      </div>
+	      
+	      <div class="slide">
+	      	<header>Les entités HTML</header>
+	        <section>
+	        	<p>Une entité HTML a la forme <b>&amp;nom;</b> ou <b>&amp;#identifiant;</b> (décimal ou hexadécimal)</p>
+	        	<p>Par exemple &amp;lt; (&lt;), &amp;quot; (&quot;) ou &amp;#8364; (&euro;)</p>
+	        	<p>Elles sont utiles pour :</p>
+	        	<table class="refTable">
+	        		<thead>
+	        			<tr>
+	        				<td>entité</td>
+	        				<td>description</td>
+	        			</tr>
+	        		</thead>
+	        		<tr>
+	        			<td>&amp;lt; et &amp;gt;</td>
+	        			<td>Les caractères &lt; et &gt; sont réservés pour le balisage</td>
+	        		</tr>
+	        		<tr>
+	        			<td>&amp;quot;</td>
+	        			<td>Le caractère &quot; est interdit dans un attribut (&lt;a title="il a dit "non !""&gt;)</td>
+	        		</tr>
+	        		<tr>
+	        			<td>&amp;amp;</td>
+	        			<td>Permet d'échapper le &amp;</td>
+	        		</tr>
+	        		<tr>
+	        			<td>&amp;nbsp;</td>
+	        			<td>non-breaking space, indique au navigateur de conserver l'espace pour le rendu</td>
+	        		</tr>
+	        		<tr>
+	        			<td>&amp;euro; &amp;copy;</td>
+	        			<td>Certains caractères sont difficiles à taper</td>
+	        		</tr>
+	        	</table>
+	        	<p>Les entités nommées ont leur équivalent en numériques mais le nom est plus facile à manipuler à la main.</p>
+	        </section>
+	        <p class="source">http://www.w3schools.com/html/html_entities.asp</p>
+	      </div>
+	        
+	      <div class="slide">
+	      	<header>Le DOCTYPE</header>
+	        <section>
+	          <p>Le DOCTYPE définit à quel standard se rapporte le code de la page.</p>
+	          <p>Il définit quelles sont les balises autorisées et quel doit être la synthaxe du document</p>
+	          <table class="refTable" style="font-size:14px">
+	          	<thead>
+	          		<tr>
+	          			<td>doctype</td>
+	          			<td>déclaration</td>
+	          		</tr>
+	          	</thead>
+	          	<tr>
+	          		<td>HTML 4.01 Strict</td>
+	          		<td>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd"&gt;</td>
+	          	</tr>
+	          	<tr>
+	          		<td>HTML 4.01 Transitional</td>
+	          		<td>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"&gt;</td>
+	          	</tr>
+	          	<tr>
+	          		<td>HTML 4.01 Frameset</td>
+	          		<td>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd"&gt;</td>
+	          	</tr>
+	          	<tr>
+	          		<td>XHTML 1.0 Strict</td>
+	          		<td>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"&gt;</td>
+	          	</tr>
+	          	<tr>
+	          		<td>XHTML 1.0 Transitional</td>
+	          		<td>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"&gt;</td>
+	          	</tr>
+	          	<tr>
+	          		<td>XHTML 1.0 Frameset</td>
+	          		<td>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd"&gt;</td>
+	          	</tr>
+	          	<tr>
+	          		<td>XHTML 1.1</td>
+	          		<td>&lt;!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd"&gt;</td>
+	          	</tr>
+	          	<tr>
+	          		<td>HTML 5</td>
+	          		<td>&lt;!DOCTYPE html&gt;</td>
+	          	</tr>
+	          </table>
+	          <p>Les déclinaisons <b>strict</b> (le mode le plus restrictif et exigeant), <b>transitional</b> (autorise des éléments abandonnés) et <b>frameset</b> (transitional + utilisation de la balise frameset)</p>
+	        </section>
+	        <p class="source">http://www.w3.org/QA/2002/04/valid-dtd-list.html</p>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Modes dégradés</header>
+	        <section>
+	        	<p>En pratique, les navigateurs essayent de s'adapter aux pages.</p>
+	          	<p>Le <b>quirks mode</b> permet de supporter les sites anciens ne respectant pas bien les standards.</p>
+	          	<p>Le <b>Almost standards mode</b> est le mode standard sauf pour le support de l'alignement des images dans les tables.</p>
+	          	<p>Le <a href="http://validator.w3.org/" class="external" target="_blank">validateur W3C</a> permet de confronter son site au standard</p>
+	          	<img alt="" src="images/w3c-validator.png" width="860px">
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Quirks_mode</p>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Les CSS</header>
+	        <section>
+	        	<pre>
+{sélecteur} {       
+  {propriété}: {valeur};
+}
+
+p {       
+  font-weight: bold;
+}
+
+#id {       
+  font-weight: bold;
+}
+
+.class {       
+  font-weight: bold;
+}
+</pre>
+				<p>Les sélecteurs permettent d'atteindre des éléments de l'arbre DOM.</p>
+				<p>Chaque élément est réprésenté par une zone rectangulaire dont les propriétés peuvent être modifiées : la box.</p>
+				<p>Les propriétés d'un élément sont la somme des propriétés designés par les sélecteurs, en prenant en compte un ordre de priorité : le cascading.</p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les possibilités de chargement de CSS</header>
+	        <section>
+	        	<p>Via include</p>
+	        	<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    <b>&lt;link href="includes/style.css" type="text/css" rel="stylesheet" /&gt;</b>
+  &lt;/head&gt;
+  &lt;body&gt;&lt;p&gt;<span style="color:green">Hello !</span>&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;</pre>
+				<p>Via inlining dans un bloc style</p>
+				<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;<b>&lt;style type="text/css"&gt;p {color:green;}&lt;/style&gt;</b>&lt;/head&gt;
+  &lt;body&gt;&lt;p&gt;<span style="color:green">Hello !</span>&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;</pre>
+				<p>Via inlining dans l'élément</p>
+				<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;&lt;/head&gt;
+  &lt;body&gt;&lt;p <b>style="color:green;"</b>&gt;<span style="color:green">Hello !</span>&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;</pre>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les medias CSS</header>
+	        <section>
+	        	<p>Lors de l'inclusion de css, il est possible de spécifier pour quel type de média elle est valide.</p>
+	        	<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;
+    &lt;link href="..." type="text/css" rel="stylesheet" media="<b>screen</b>" /&gt;
+  &lt;/head&gt;
+  &lt;body&gt;&lt;/body&gt;
+&lt;/html&gt;</pre>
+	        	<p>all : quel que soit le média</p>
+	        	<p>screen : écrans d'ordinateur de bureau</p>
+	        	<p>print : pour l'impression papier</p>
+	        	<p>handheld : écrans de très petite taille et clients aux capacités limitées</p>
+	        	<p>projection : quand le document est projeté</p>
+	        	<p>tv : quand le document est affiché sur un appareil de type télévision</p>
+	        	<p>speech : pour le rendu via une synthèse vocale</p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Le box model</header>
+	        <section>
+	        	<p>Tout élément au sein d'une page web est affiché dans une zone rectangulaire : la <b>box</b>.</p>
+	        	<p>En mode standard, jusqu'à la version 6, IE n'implémentait pas la recommandation W3C.</p>
+	        	<img alt="box model" src="images/box-model.png" style="float:left;margin-right:20px;" />
+	        	<p>La taille d'un composant correspond uniquement à la taille du contenu, hors padding, border et margin.</p>
+	        	<p>En mode quirks, les versions 6 et supérieures de IE continue d'appliquer le mauvais rendu pour assurer le support des vieux sites.</p>
+	        	<p>Cependant, l'implémentation non standard peut sembler plus naturelle</p>
+	        	<p>Webkit et Gecko ont un support afin d'obtenir le box model des anciens IE via la propriété CSS -moz-box-sizing et -webkit-box-sizing</p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Internet_Explorer_box_model_bug</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Le cascading</header>
+	        <section>
+	        	<pre>
+p {color : red;}
+
+.hello {color : blue;}
+
+p.hello {color : blue;}
+
+#helloId {color : green;}
+	        	</pre>
+	        	<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;&lt;&lt;/head&gt;
+  &lt;body&gt;
+    &lt;<b>p</b> class="<b>hello</b>" id="<b>helloId</b>"&gt;<span style="color:green">Hello !</span>&lt;/p&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</pre>
+				<p>Les styles sont appliqués par <a href="http://openweb.eu.org/articles/cascade_css" class="external" target="_blank">ordre de priorité</a></p>
+				<ul>
+					<li>Ordre de priorité des sélecteurs : élements, classes et identitfiants
+					<li>Ordre de priorité de l'origine : par défaut (navigateur), includes et inline
+				</ul>
+	        </section>
+	        <p class="source">http://fr.wikipedia.org/wiki/Feuilles_de_style_en_cascade</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>La propriété display</header>
+	        <section>
+	        	<p>C'est la propriété importante qui indique au moteur de rendu comment traiter la box.</p>
+	        	<table class="refTable">
+	        		<thead>
+	        			<tr>
+	        				<td>valeur</td>
+	        				<td>signification</td>
+	        			</tr>
+	        		</thead>
+	        		<tr>
+	        			<td width="150">display:none</td>
+	        			<td>L'élément n'est pas affiché et il n'est pas pris en compte dans le flux</td>
+	        		</tr>
+	        		<tr>
+	        			<td>display:block</td>
+	        			<td>L'élément définit un bloc avec un retour chariot avant et aprés dans le flux</td>
+	        		</tr>
+	        		<tr>
+	        			<td>display:inline</td>
+	        			<td>L'élément est affiché dans le flux, sans retour à la ligne</td>
+	        		</tr>
+	        		<tr>
+	        			<td>display:list-item</td>
+	        			<td>Affichage sous forme de liste, avec retour à la ligne après l'élément et une puce avant (list-style)</td>
+	        		</tr>
+	        		<tr>
+	        			<td>display:inherit</td>
+	        			<td>L'élément hérite du dsplay de son parent</td>
+	        		</tr>
+	        		<tr>
+	        			<td>display:table-cell</td>
+	        			<td>L'élément se comportement comme une cellule de table, permettant notamment l'alignement vertical</td>
+	        		</tr>
+	        		<tr>
+	        			<td colspan="2">+ d'autres valeurs non standards ou non supportées par tous les navigateurs</td>
+	        		</tr>
+	        	</table>
+	        	<div>
+		        	<div class="displayExample">
+						<div class="first">
+						first {display: block}
+						<div class="second">second {display: block}</div>
+						<div class="third">third {display: block}</div>
+						</div>
+					</div>
+		        	<div class="displayExample">
+						<div class="first">
+						first {display: block}
+						<div class="second" style="display:inline;">second {display: inline}</div>
+						<div class="third">third {display: block}</div>
+						</div>
+					</div>
+				</div>
+	        	<p>
+	        		Chaque élément à une valeur par défaut : un <b>span est inline</b> alors qu'une <b>div est block</b>.
+	        		Il est important d'éssayer de conserver la valeur par défaut car cela donne un sens à l'utilisation des balises.
+	        	</p>
+	        </section>
+	        <p class="source">http://www.quirksmode.org/css/display.html</p>
+	      </div>
+	        
+	      <div class="slide">
+	      	<style>
+	      		#css-sample-form ul {
+	      			padding:0;
+	      			width: 280px;
+	      		}
+	      	
+	      		#css-sample-form li {
+	      			list-style: none;
+	      			padding:4px;
+	      			font-size: 16px;
+	      		}
+	      	</style>
+	      	<script type="text/javascript">
+		      	$(document).ready(function() {
+			      	$("#css-sample-form input").each(function(i, e) {
+						$(e).click(function() {cssSampleCompute()})
+					})
+
+					cssSampleCompute();
+		      	})
+	      	
+		      	function cssSampleCompute() {
+		      		$("#css-sample-form input").each(function(i, e) {
+						if ($(e).is(":checked")) {
+							$("#css-sample-preview").css($(e).attr("name"), $(e).attr("value"))
+						} else {
+							$("#css-sample-preview").css($(e).attr("name"), "")
+						}
+					})
+				}
+	      	</script>
+	      	<header>Quelques propriétés</header>
+	        <section>
+	        	<p>Voici quelques exemples de propriétés:</p>
+	        	<div id="css-sample-form">
+		        	<ul style="float:left;">
+		        		<li><input type="checkbox" name="color" value="#B9D3F6" checked="checked"/>color:#B9D3F6;</li>
+		        		<li><input type="checkbox" name="border" value="1px #05326D solid" checked="checked"/>border:1px #05326D solid;</li>
+		        		<li><input type="checkbox" name="backgroundColor" value="#4282D3" checked="checked"/>background-color:#4282D3;</li>
+		        	</ul>
+		        	<ul style="float:left;">
+		        		<li><input type="checkbox" name="width" value="600px" checked="checked"/>width:600px;</li>
+		        		<li><input type="checkbox" name="lineHeight" value="200px" checked="checked"/>line-height:200px;</li>
+		        		<li><input type="checkbox" name="padding" value="20px 20px 20px 20px" checked="checked"/>padding:20px 20px 20px 20px;</li>
+		        		<li><input type="checkbox" name="margin" value="auto" checked="checked"/>margin:auto;</li>
+		        	</ul>
+		        	<ul style="float:left;">
+		        		<li><input type="checkbox" name="textAlign" value="center" checked="checked"/>text-align:center;</li>
+		        		<li><input type="checkbox" name="fontStyle" value="italic" checked="checked"/>font-style:italic;</li>
+		        		<li><input type="checkbox" name="fontSize" value="26px" checked="checked"/>font-size:26px;</li>
+		        		<li><input type="checkbox" name="textShadow" value="4px 4px 2px #000" checked="checked"/>text-shadow:2px 2px 2px #000;</li>
+		        	</ul>
+	        	</div>
+	        	<br style="clear:both;"/><br/>
+        		<div id="css-sample-preview">Hello !</div>
+	        </section>
+	        <p class="source">http://www.w3schools.com/css/css_reference.asp</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les extensions css</header>
+	        <section>
+	        	<p>Chaque navigateur possède ses propres extensions</p>
+	        	<p>Par exemple, avec la venue du html 5, chacun propose ses propres propriétés.</p>
+	        	<p>Ces extensions sont préfixés : 
+	        		<a href="https://developer.mozilla.org/en/CSS_Reference/Mozilla_Extensions" class="external" target="_blank"/>-moz</a>
+	        		<a href="http://qooxdoo.org/documentation/general/webkit_css_styles" class="external" target="_blank"/>-webkit</a>
+	        		<a href="http://www.opera.com/docs/specs/presto26/css/o-vendor/" class="external" target="_blank"/>-o</a>
+	        	</p>
+	        	<pre>
+-moz-appearance
+-moz-background-clip
+-moz-background-inline-policy
+-moz-background-origin
+
+-webkit-appearance
+-webkit-background-clip
+-webkit-background-composite
+-webkit-background-origin
+-webkit-background-size
+-webkit-text-stroke
+-webkit-text-stroke-color
+-webkit-text-stroke-width
+	        	</pre>
+	        </section>
+	        <p class="source">http://www.quirksmode.org/compatibility.html</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Le moteur javascript</header>
+	        <section>
+	        	<p>Le javascript est un <b>language objet par prototypage</b>.</p>
+	        	<p>Le javascript est un <b>language non typé</b>.</p>
+	        	<p>Le javascript est un language interprété par opposition à un language compilé.</p>
+	        	<p>Les navigateurs fournissent un environnement d'éxécution pour le javascript</p>
+	        	<p>Il appartient à la même famille que l'ActionScript pour flash (EMCA Script)</p>
+	        </section>
+	        <p class="source">http://t-templier.developpez.com/tutoriel/javascript/javascript-poo1/</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les consoles des navigateurs</header>
+	        <section>
+	        	<p>Les navigateurs modernes possèdent des consoles permettant d'éxécuter simplement du javascript</p>
+	        	<p>Chrome :</p>
+	        	<img alt="" src="images/chrome-console.png" />
+	        	<p>Firefox :</p>
+	        	<img alt="" src="images/firefox-console.png" />
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Le chargement de javascript</header>
+	        <section>
+	        	<p>Via include</p>
+	        	<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;<b>&lt;script type="text/javascript" src="myscript.js"&gt;&lt;/script&gt;</b>&lt;/head&gt;
+  &lt;body&gt;&lt;p&gt;Hello !&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;</pre>
+				<p>Via inlining dans un bloc script</p>
+				<pre>
+&lt;script type="text/javascript" charset="utf-8"&gt;
+&lt;!--
+<b>do something</b> 
+--&gt;
+&lt;/script&gt;</pre>
+				<p>Via inlining dans l'élément</p>
+				<pre>
+&lt;html xmlns="http://www.w3.org/1999/xhtml"&gt;
+  &lt;head&gt;&lt;/head&gt;
+  &lt;body&gt;&lt;p <b>onclick="do something"</b>&gt;Hello !&lt;/p&gt;&lt;/body&gt;
+&lt;/html&gt;</pre>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les objets en javascript</header>
+	        <section>
+	        	<p>L'instanciation d'un objet est simple.</p>
+	        	<pre>
+var obj1 = new Object(); <span class="comment">// A partir de l'objet Object</span> 
+var obj2 = {}; <span class="comment">// Avec la notation JSON</span> 
+	        	</pre>
+	        	<p>Les objets sont des tableaux associatifs.</p>
+	        	<pre>
+var obj = new Object(); 
+obj["attribut"] = "valeur1"; <span class="comment">// similaire à obj.attribut = "valeur1";</span> 
+ 
+<span class="comment">// Affichage de la valeur de attribut de obj</span> 
+window.alert("Valeur de attribut: " + obj.attribut); <button onclick="var obj = new Object();obj['attribut'] = 'valeur1';window.alert('Valeur de attribut: ' + obj.attribut);">Exécuter</button>
+	        	</pre>
+	        </section>
+	        <p class="source">http://t-templier.developpez.com/tutoriel/javascript/javascript-poo1/</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Format JSON (JavaScript Object Notation)</header>
+	        <section>
+	        	<p>Comme le XML, le JSON est un format de données textuel structuré et auto descriptif.</p>
+	        	<pre>
+{
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25,
+  "address": {
+    "streetAddress": "21 2nd Street",
+    "city": "New York",
+    "state": "NY",
+    "postalCode": "10021"
+  },
+  "phoneNumber": [ {
+      "type": "home", "number": "212 555-1234"
+    }, {
+      "type": "fax", "number": "646 555-4567"
+    }
+  ]
+}
+	        	</pre>
+	        	<p>Le JSON est supporté nativement en javascript lors de la construction d'objets.</p>	
+	        </section>
+	        <p class="source">http://www.json.org/</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les structures de contrôle</header>
+	        <section>
+	        	<p>Les structures de contrôle sont extrêmement classiques</p>
+	        	<table class="refTable">
+	        		<thead>
+	        			<tr>
+	        				<td>structure</td>
+	        				<td>exemple</td>
+	        			</tr>
+	        		</thead>
+	        		<tr>
+	        			<td>if else</td>
+	        			<td>if (condition) { } else { };</td>
+	        		</tr>
+	        		<tr>
+	        			<td>for</td>
+	        			<td>for (var i = 0; i < 10; i++) { }</td>
+	        		</tr>
+	        		<tr>
+	        			<td>for in</td>
+	        			<td>for (x in new Array("a", "b", "c")) { document.write(x + ") " + arr[x]); }</td>
+	        		</tr>
+	        		<tr>
+	        			<td>while</td>
+	        			<td>while (condition) { }</td>
+	        		</tr>
+	        		<tr>
+	        			<td>do while</td>
+	        			<td>do { } while (condition)</td>
+	        		</tr>
+	        		<tr>
+	        			<td>break et continue</td>
+	        			<td>break permet de sortir de la boucle, tandis que continue passe à l'itération suivante. </td>
+	        		</tr>
+	        		<tr>
+	        			<td>switch case</td>
+	        			<td>switch (expression) {<br/>
+						&nbsp;&nbsp;case valeur:<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;... instructions ...<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;break;<br/>
+						&nbsp;&nbsp;case valeur:<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;...instructions...<br/>
+						&nbsp;&nbsp;&nbsp;&nbsp;break;<br/>
+						&nbsp;&nbsp;....<br/>
+						}</td>
+	        		</tr>
+	        	</table>
+	        </section>
+	        <p class="source">http://www.xul.fr/ecmascript/tutoriel/structure-de-controle.php</p>
+	      </div>
+	        
+	      <div class="slide">
+	      	<script type="text/javascript">
+		      	function test(parametre1) { alert(parametre1); } 
+		      	function test(parametre1, parametre2) { alert(parametre1 + "," + parametre2); } 
+		      	var myFunction = function(param1) {alert("myFunction " + param1); };
+		      	
+		      	function javascriptFunction() {
+		      		test("une valeur");
+		      	}
+
+		      	function javascriptMyFunction() {
+		      		myFunction("une valeur");
+		      	}
+	      	</script>
+	        <header>Les fonctions en javascript</header>
+	        <section>
+	        	<p>
+	        		Une fonction est un objet fondamental (<a href="http://en.wikipedia.org/wiki/First-class_function" class="external" target="_blank">first class function</a>) du language.<br/>
+	        		Elle est défini uniquement par son nom (et non la signature).
+        		</p>
+	        	<pre>
+function test(param1) { alert(param1); } 
+function test(param1, param2) { alert(param1 + "," + param2); } 
+ 
+test("une valeur"); <span class="comment">// appelle la seconde fonction</span> <button onclick="javascriptFunction();">Exécuter</button></pre>
+	        	<p>Il est possible d'avoir un pointeur vers une fonction.</p>
+	        	<pre>
+var myFunction = function(param1) { alert("myFunction " + param1); };
+ 
+myFunction("une valeur"); <button onclick="javascriptMyFunction();">Exécuter</button></pre>
+	        	<p>Et donc d'avoir une fonction comme attribut d'un objet.</p>
+	        	<pre>
+var obj = { attribut: "valeur", methode: function(param1, param2) { 
+    alert("parametres: " + param1 + ", " + param2); 
+  } 
+}</pre>
+	        </section>
+	        <p class="source">http://t-templier.developpez.com/tutoriel/javascript/javascript-poo1/</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Null et undefined en javascript</header>
+	        <section>
+	        	<p>En javascript, une variable non déclarée ou non initialisée est undefined</p>
+	        	<pre>
+var var1;
+alert(var1); // undefined
+alert(typeof var1); // undefined
+alert(var1 == undefined); // true
+</pre>
+	        	<p>null est une valeur qui peut être assigné à une variable</p>
+	        	<pre>
+var var2 = null;
+alert(var2); // null
+alert(typeof var2); // object
+</pre>
+				<p>null et undefined ne sont donc pas équivalent</p>
+				<pre>
+var var3;
+alert(var3 == undefined); // true
+alert(var3 == null); // true
+var3 = null;
+alert(var3 === undefined); // false
+alert(var3 === null); // true
+</pre>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les closures en javascript</header>
+	        <section>
+	        	<p>Une closure (fermeture) est une fonction qui capture des références à des variables libres dans l'environnement lexical.</p>
+	        	<p>En javascript, une fonction peut donc capturer la valeur d'une variable au moment où elle lui est passée et s'en servir ultérieurement.</p>
+	        	<pre>
+var func = function (count) {
+  return function (value) {
+    count--;
+    return value + count;
+  }
+};
+ 
+var func10 = func(10); var func5 = func(5);
+ 
+console.log(func10(1)); // 10
+console.log(func5(1)); // 5
+console.log(func10(10)); // 18
+console.log(func10(10)); // 17
+console.log(func10(1)); // 7</pre>
+	        	<p>C'est une contruction puissante mais complexe dont on se sert parfois sans s'en rendre compte (<a href="http://www.siteduzero.com/tutoriel-3-123380-les-closures-en-javascript.html" class="external" target="_blank">voir tutorial</a>).</p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Closure_(computer_science)</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Le prototypage en javascript</header>
+	        <section>
+	        	<p>Il n'existe pas de classe en javascript, on utilise les fonctions afin de les simuler.</p>
+	        	<pre>
+function <b>MaClasse</b>(parametre1, parametre2) { 
+  this.attribut1 = parametre1; 
+  this.attribut2 = parametre2; 
+    
+  this.methode = function() { 
+    alert("Attributs: " + this.attribut1 + ", " + this.attribut2); 
+  } 
+} 
+ 
+var obj = new MaClasse("valeur1", "valeur2"); 
+alert("Attribut1: " + obj.attribut1);
+<span class="comment">// Affiche la valeur de l'attribut attribut1</span> 
+obj.methode();
+<span class="comment">// Affiche la chaîne de caractères contenant les valeurs des attributs</span> 
+	        	</pre>
+	        	<p>A chaque instanciation une nouvelle méthode methode est créée pour l'objet.
+	        		Aussi, si dix objets de type MaClasse sont créés, dix méthodes methode sont créées.</p>
+	        </section>
+	        <p class="source">http://t-templier.developpez.com/tutoriel/javascript/javascript-poo1/</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Le prototypage en javascript</header>
+	        <section>
+	        	<p>Les fonctions possèdent une propriété <b>prototype</b> qui permet de travailler sur leur définition.</p>
+	        	<pre>
+function MaClasse(parametre1, parametre2) { 
+  this.attribut1 = parametre1; 
+  this.attribut2 = parametre2; 
+} 
+ 
+MaClasse.prototype = { 
+  methode: function() { 
+    alert("Attributs: " + this.attribut1 + ", " + this.attribut2); 
+  },
+  attribut3 : "ma constante"
+} 
+ 
+var obj = new MaClasse("valeur1", "valeur2"); 
+alert("Attribut1: " + obj.attribut1);
+<span class="comment">// Affiche la valeur de l'attribut attribut1</span> 
+obj.methode();
+<span class="comment">// Affiche la chaîne de caractères contenant les valeurs des attributs</span> 
+	        	</pre>
+	        	<a href="projets/classes/index.html" class="project" target="_blank" style="float:right;">Création de classes en javascript</a>
+	        </section>
+	        <p class="source">http://t-templier.developpez.com/tutoriel/javascript/javascript-poo1/</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les évènements</header>
+	        <script type="text/javascript">
+		        $(document).ready(function() {
+		        	document.getElementById("javascriptEvents").onclick = function() {alert("click")};
+		        })
+	        </script>
+	        <section>
+	          <p>Le javascript est capable d'intercepter les évènements, comme par exemple un click, survenant dans une page.</p>
+	          <p>Cette capacité alliée à la possibilité de modifier l'arbre DOM permet de construire des interactions riches.</p>
+	          <pre>
+window.onload = function() {alert("Hey !")};
+
+document.getElementById("javascriptEvents").onclick =function() {
+  alert("click")
+}; <button id="javascriptEvents">Exécuter</button>
+	          </pre>
+	          <p>Cependant, les <a href="http://www.quirksmode.org/dom/events/index.html" class="external" target="_blank">problèmes de compatibilités</a> rendent la tâche ardue.</p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Le javascript et l'arbre DOM</header>
+	        <section>
+	        	<p>Il est possible de modifier l'arbre DOM après son chargement en javascript.</p>
+	        	<p>On peut ajouter, modifier et supprimer des <b>noeuds DOM</b>.</p>
+	        	  <pre>var newNode = document.createElement('p');
+newNode.appendChild(document.createTextNode('Du text.'));
+document.getElementById('id').appendChild(newNode);</pre>
+	        	<p>On peut faire de même avec les <b>attributs</b> et notamment les attributs de <b>style</b>.</p>
+	        	<pre>document.getElementById("id").setAttribute('attributeName','attributeValue');
+document.getElementById("id").className="maClass";
+document.getElementById("id").style.borderColor="#000";</pre>
+				<p>A la fin des années 90, cette technique était connue sous le nom de <b>DHTML</b></p>
+	          	<p class="warning">Lorsqu'on accède aux propriétés css des objets en javascript, elles sont en camelCase.</p>
+	        </section>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Force et faiblesse du javascript</header>
+	        <section>
+	        	<p>Le javascript est un language flexible, puissant et portable.</p>
+	        	<p>Il est très facile de débuter en javascript.</p>
+	        	<p>Le support entre les navigateurs à atteint un niveau satisfaisant mais il reste difficile d'écrire du code compatible</p>
+	        	<p>Lorsqu'un projet grossit la flexibilité fait place à des problèmes de maintenabilité.</p>
+	        	<p>Il est donc conseillé de se tourner rapidement vers des frameworks comme 
+	        	<a href="http://jquery.com/" class="external" target="_blank">jquery</a> et <a href="http://code.google.com/intl/fr/webtoolkit/" class="external" target="_blank">gwt</a>
+	        	</p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les cookies</header>
+	        <section>
+	        	<p>Un cookie est un couple clé / valeur valable pour un domaine, stoquée sur le navigateur.</p>
+	        	<p>Ils peuvent écrit en retour d'une requête HTTP ou en javascript.</p>
+	        	<pre>document.cookie = 'name=value;'</pre>
+	        	<p>Un cookie peut avoir une date d'expiration et / ou n'être valable que pour une sous partie d'un site</p>
+	        	<pre>document.cookie='name=value; expires=Thu, 2 Aug 2011 20:00:00 UTC; path=/'</pre>
+	        	<p>En pratique, les cookies sont utilisés pour stoquer toutes sortes de choses :</p>
+	        	<ul>
+	        		<li>Identifiant de session</li>
+	        		<li>Trackers</li>
+	        		<li>...</li>
+	        	</ul>
+	        	<p>Il ne faut jamais utiliser les cookie afin d'y mettre des données sensibles.</p>
+	        </section>
+	        <p class="source">http://www.quirksmode.org/js/cookies.html</p>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Quelques APIs</header>
+	        <section>
+	        	<p>Un intérêt majeur du web est qu'une grande partie des services proposés est public.</p>
+	        	<p>Ils existe un grand nombre d'APIs disponibles et documentées parmis lesquelles.</p>
+	        	<ul>
+	        		<li><a href="http://code.google.com/intl/fr-FR/more/" class="external" target="_blank">Les APIs google</a> (maps, adsense...)
+	        		<li><a href="http://developer.yahoo.com/everything.html" class="external" target="_blank">Les APIs yahoo</a> (flickr, search...)
+	        		<li>...
+	        	</ul>
+	        	<p>Selon le service, l'API essaye de proposer le moyen le plus simple afin d'être intégré.</p>
+	        	<p>En retour, ces services utilisent des mécaniques de partage des revenus innovantes qui supportent la mise à disposition de leur données.</p>
+	        </section>
+	      </div>
+	      
+	      <div class="slide">
+	      	<script type="text/javascript">
+			  function initialize_gmap() {
+			    var latlng = new google.maps.LatLng(43.297, 5.381);
+			    var myOptions = {
+			      zoom: 8,
+			      center: latlng,
+			      mapTypeId: google.maps.MapTypeId.ROADMAP
+			    };
+			    var map = new google.maps.Map($("#googleMap")[0], myOptions);
+			  }
+
+			  $(document).ready(function() {
+				  initialize_gmap();
+	      		});
+			</script>
+	        <header>Google map API</header>
+	        <section>
+	        	<pre>&lt;div id="googleMap" style="width:100%; height:280px"&gt;&lt;/div&gt;</pre>
+	        	<pre>
+var latlng = new google.maps.LatLng(43.297, 5.381); <span class="comment">// Marseille</span>
+var myOptions = {
+  zoom: 8,
+  center: latlng,
+  mapTypeId: google.maps.MapTypeId.ROADMAP
+};
+var map = new google.maps.Map($("#googleMap")[0], myOptions);</pre>
+  				<div id="googleMap" style="width:100%; height:280px"></div>
+	        </section>
+	        <p class="source">http://code.google.com/intl/fr-FR/apis/maps/documentation/javascript/</p>
+	      </div>
+	      
+	      <div class="slide">
+	      	<header>Google Adsense</header>
+			<section>
+				<p>Avec adsense, google diffuse des publicités textuelles et contextuelles dans des pages webs.</p>
+				<pre>
+&lt;script type="text/javascript"&gt;&lt;!--
+google_ad_client = "pub-xxx";
+google_ad_slot = "yyy";
+google_ad_width = 300;
+google_ad_height = 250;
+//--&gt;&lt;/script&gt; 
+&lt;script type="text/javascript"
+   src="http://pagead2.googlesyndication.com/pagead/show_ads.js"&gt; 
+&lt;/script&gt;</pre> 
+			  <div style="float:left;margin:0 10px;">
+			  	<script type="text/javascript"><!--
+				google_ad_client = "pub-3394119166059409";
+				/* Home page RTL.fr 300x250, 15/10/09 */
+				google_ad_slot = "5648062283";
+				google_ad_width = 300;
+				google_ad_height = 250;
+				//-->
+				</script> 
+				<script type="text/javascript"
+				src="http://pagead2.googlesyndication.com/pagead/show_ads.js"> 
+				</script>
+				</div>
+				<p>Avec la base de connaissance de google, ces publicités sont fonction :</p>
+				<ul>
+					<li>Le site hébergeant la publicité
+					<li>La thématique de la page
+					<li>L'historique de navigation de l'utilisateur
+				</ul>
+				<p>Il est même possible de savoir ce que <a href="http://www.google.com/ads/preferences/view" class="external" target="_blank">google sait de vous</a>.</p>
+			</section>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Google API : google chart</header>
+	        <section>
+	        	<pre>&lt;img src="http://chart.apis.google.com/chart?[params]" /&gt;</pre>
+	        	<pre>http://chart.apis.google.com/chart
+   ?chs=300x150 <span class="comment">// dimensions</span>
+   &cht=p3 <span class="comment">// 3d pie chart</span>
+   &chco=7777CC|76A4FB|3399CC|3366CC <span class="comment">// couleurs</span>
+   &chds=0,110 <span class="comment">// valeurs min et max</span>
+   &chd=t:32.787,50.82,110,42.623 <span class="comment">// valeurs</span>
+   &chdl=January|February|March|April <span class="comment">// libellés</span></pre>
+	        	<img src="http://chart.apis.google.com/chart?chs=270x150&cht=p3&chco=7777CC|76A4FB|3399CC|3366CC&chds=0,110&chd=t:32.787,50.82,110,42.623&chdl=January|February|March|April" width="275" height="200" alt="" />
+	        	<img src="http://chart.apis.google.com/chart?chxt=y&chbh=a&chs=270x225&cht=bvg&chco=A2C180,3D7930&chd=t:10,50,60,80,40,60,30|50,60,100,40,20,40,30&chtt=Vertical+bar+chart" width="275" height="200" alt="Vertical bar chart" />
+	        	<img src="http://chart.apis.google.com/chart?chxl=0:|Jan|Feb|Mar|Jun|Jul|Aug|1:|100|50|0&chxt=x,y&chs=270x200&cht=lc&chd=s:AA,ASms297wzuowqytmbSKA&chg=25,50&chls=0.75,-1,-1|2,4,1&chm=o,FF9900,1,-2,8|b,3399CC44,0,1,0" width="275" height="200" alt="" />
+	        </section>
+	        <p class="source">http://code.google.com/intl/fr-FR/apis/chart/</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Le performance et profiling</header>
+	        <section>
+	        	<p>La performance d'un site est affecté par beaucoup de paramètres : temps de réponse du serveur, poids des resources, exécution du javascript, présence de publicités tierces, ...</p>
+	        	<p>Chrome dispose d'un outils d'audit très peformant.</p>
+	        	<img alt="" src="images/chrome-audit.png" width="840"/>
+	        	<p>Il existe même un outils encore plus complet : <a href="http://code.google.com/intl/fr-FR/webtoolkit/speedtracer/" class="external" target="_blank">Speed Tracer</a></p>
+	        	<p>Il existe diverses techniques afin d'optimiser les resources.</p>
+	        	<p>Par exemple, la <a href="http://javascriptcompressor.com/" class="external" target="_blank">compression du javavascript</a>
+	        	et l'utilisation de <a href="http://css-tricks.com/css-sprites/" class="external" target="_blank">sprites d'image en CSS</a></p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>Les plugins</header>
+	        <section>
+	        	<p>Les fonctionnalités des navigateurs peuvent être étendu grâce à des plugins.</p>
+	        	<ul>
+	        		<li>Flash player : utilisé pour les animations et les lecteurs multimédia
+	        		<li>Quicktime : le player d'apple dans les navigateurs
+	        		<li>Java : l'exécution d'applets
+	        		<li>RealPlayer : player pour les sources RealAudio et RealVideo
+	        		<li>Windows media player : le lecteur de microsoft pour ses formats de vidéo
+	        	</ul>
+	        	<p>Et des extensions.</p>
+	        	<ul>
+	        		<li>Sous firefox : xul et javascript
+	        		<li>Sous chrome : html, css et javascript
+	        	</ul>
+	        </section>
+	      </div>
+      </div>
+      <!-- slides -->
+
+    </div> <!-- presentation -->
+
+ 	</body>
+ </html>

@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Twitter jsonp api</title>
+
+		<link href="../../../static/css.css" rel="stylesheet" type="text/css">
+	    <link id="prettify-link" href="../../../static/prettify.css" rel="stylesheet" disabled="">
+	    <link href="../../../static/default.css" class="theme" rel="stylesheet">
+	  	
+	  	<link href="../../../static/dev.css" class="theme" rel="stylesheet">
+	  	<link href="../../../static/project.css" class="theme" rel="stylesheet">
+	  	
+	  	<script type="text/javascript" src="../../../static/jquery/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="../../../static/jquery/jquery.xcolor.js"></script>
+	  	
+	  	<link href="twitter.css" class="theme" rel="stylesheet">
+	    <script src="twitter.js"></script>
+	</head>
+<body>
+	<div id="project">
+		<h1>Twitter jsonp api</h1>
+		<h2>Présentation</h2>
+		<p>Nous allons interroger l'api de twitter afin de remplir la widget suivante.</p>
+		<div id="twitter"> 
+			<img src="twitter.png" width="120" height="30" alt=""/>
+			<div class="messages"></div>
+		</div>
+		<pre>
+&lt;div id="twitter"&gt;
+	&lt;img src="twitter.png" width="120" height="30" alt=""/&gt;
+	&lt;div class="messages"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+		<p>Les ressources disponibles pour ce projet :</p>
+		<ul>
+			<li><a href="index.html">index.html</a> : ce fichier, il suffit de recharger cette page afin de tester le javascript</li>
+			<li><a href="twitter.js" target="_blank">twitter.js</a> : le fichier avec le code javascript</li>
+			<li><a href="twitter.css" target="_blank">twitter.css</a> : la feuille de style pour la widget</li>
+		</ul>
+		<p>Nous allons coder twitter.js afin qu'il aille chercher les données et qu'il affiche les 3 derniers twitts.</p>
+		<h2>Le service jsonp de twitter</h2>
+		<p>Twitter offre une api très ouverte afin de récupérer ses contenus</p>
+		<p>Nous allons utiliser le <a href="http://dev.twitter.com/doc/get/statuses/user_timeline" class="external" target="_blank">service user_timeline</a></p>
+		<pre>http://api.twitter.com/statuses/user_timeline.json?
+					screen_name=RTLFrance&amp;callback=handleJson</pre>
+		<p>Au chargement du document il faut appeler ce service grâce à jquery.</p>
+		<pre>
+$(document).ready(function() {
+  // call twitter api
+});</pre>
+		<h2>Le json</h2>
+		<p>Le json est constitué d'un tableau de messages.</p>
+		<img alt="" src="twitter-json.png" style="margin:auto;display:block;">
+		<h2>Création du html</h2>
+		<p>Jquery permet facilement de <a href="http://api.jquery.com/category/manipulation/" class="external" target="_blank">construire du html</a> et de l'injecter dans l'arbre DOM existant.</p>
+		<p>Voici le html que nous souhaitons construire avec le json fourni par twitter.</p>
+		<pre>
+&lt;div id="twitter"&gt;
+   &lt;img src="twitter.png" width="120" height="30" alt=""/&gt;
+   &lt;div class="messages"&gt;
+      &lt;a href="http://twitter.com/RTLFrance" target="_blank"&gt;message 1&lt;/a&gt;
+      &lt;a href="http://twitter.com/RTLFrance" target="_blank"&gt;message 2&lt;/a&gt;
+      ...
+   &lt;/div&gt;
+&lt;/div&gt;</pre>
+	</div>
+</body>
+</html>

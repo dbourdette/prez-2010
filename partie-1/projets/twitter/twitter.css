@@ -1,0 +1,21 @@
+#twitter {
+	width:200px;
+	margin:auto;
+	border: 4px solid white;
+	background: #1CA7D6;
+	-webkit-border-radius: 8px;
+	
+}
+
+#twitter img {
+	display:block;
+	margin: auto;
+	padding: 4px 0;
+}
+
+#twitter .messages a {
+	border-bottom: none;
+	padding: 4px 4px;
+	border-bottom: 1px solid white;
+	color:white;
+}

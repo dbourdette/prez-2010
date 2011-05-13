@@ -1,0 +1,378 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Application web jee</title>
+
+		<link href="../../../static/css.css" rel="stylesheet" type="text/css">
+	    <link id="prettify-link" href="../../../static/prettify.css" rel="stylesheet">
+	    <link href="../../../static/default.css" class="theme" rel="stylesheet">
+	  	
+	  	<link href="../../../static/dev.css" class="theme" rel="stylesheet">
+	  	<link href="../../../static/project.css" class="theme" rel="stylesheet">
+	    
+	</head>
+<body>
+	<div id="project">
+		<h1>Un blog avec spring</h1>
+		<h2>Présentation</h2>
+		<p>Nous allons utiliser ce template de projet afin de mettre en oeuvre les composants spring mvc.</p>
+		<p>Comme support, nous allons prendre la réalisation d'un blog.</p>
+		<img alt="" src="images/blog.png" width="700" style="margin:0 60px;"/>
+		<p>La base de notre template est un <a href="http://bcute-btf.blogspot.com" class="external" target="_blank">template HTML existant</a></p>
+		<p>Après simplification et localisation du HTML, les fichiers jsp ont été préparés.</p>
+		<h2>Les outils utilsés :</h2>
+		<ul>
+			<li><a href="http://eclipse.org" class="external" target="_blank">eclipse</a> : un IDE gratuit pour java (et beaucoup d'autres langages)
+			<li><a href="http://tomcat.apache.org" class="external" target="_blank">tomcat</a> : un conteneur de servlet de la fondation apache
+		</ul>
+		<p>Pour eclipse, si possible, prendre la distribution <a href="http://www.springsource.com/downloads/sts" class="external" target="_blank">SpringSource Tool Suite</a>
+		<p>Il faut installer <a href="http://tomcat.apache.org/download-60.cgi" class="external" target="_blank">tomcat 6</a> où l'on souhaite. Un jdk 6 est requis.</p>
+		<h2>Les ressources disponibles pour ce projet :</h2>
+		<ul>
+			<li>eclipse : le répertoire contenant le projet eclipse
+			<li>solr : les fichiers de configuration solr
+			<li>index.html : ce fichier
+			<li>images : les images de cette page web
+		</ul>
+		<p>Le projet a été créé en utilisant le menu File &gt; New... &gt; Dynamic Web Project</p>
+		<h2>La mise en place du projet</h2>
+		<ol>
+			<li>Ouvrir eclipse
+			<li>Si tomcat n'est pas configuré, ajouter tomcat 6 à la liste des serveurs disponibles :
+				<ul>
+					<li>Windows &gt; Preferences
+					<li>puis Server &gt; Runtime Environments
+					<li>Add...
+					<li><img alt="" src="images/add-tomcat.png" style="vertical-align: top;">
+					<li>Choisir le répertoire d'installation de tomcat 6
+					<li>Finish
+					<li>Ok
+				</ul>
+			<li>Importer le projet (File &gt; Import &gt; Existing project into workspace) qui est dans répertoire eclipse
+			<li>Solr : Afin de rendre accessible facilement la configuration et l'index de données de solr, il faut copier le répertoire solr dans son répertoire home
+		</ol>
+		<h2>Le projet eclipse</h2>
+		<p>Sous eclipse, le projet ressemble à l'arborescence suivante</p>
+		<img alt="" src="images/eclipse-blog.png" style="float:left;margin:10px 10px;"/>
+		<ul>
+			<li>fr.prez.blog : notre package de base
+			<li>controller : les Contrôleurs du MVC2
+			<li>domain : les objets métier
+			<li>service : les services
+			<li>SpringConfiguration : la configuration spring additionnelle
+			<li>static : les fichiers css, js et images
+			<li>WEB-INF/jsp : les fichiers jsp
+			<li>WEB-INF/lib : les librairies
+			<li>WEB-INF/tags : les fichiers tags
+			<li>WEB-INF/spring-servlet.xml : le contexte spring
+			<li>web.xml : le descripteur de déploiement
+		</ul>
+		<div style="clear:both;"></div>
+		<h2>Le descripeur de déploiement</h2>
+		<p>Il décrit comment le serveur d'application doit configurer et déployer les composants.</p>
+		<pre>
+&lt;?xml version="1.0" encoding="UTF-8" ?&gt;
+&lt;web-app ...&gt;
+ 
+ &lt;display-name&gt;blog&lt;/display-name&gt;
+   
+ &lt;filter&gt;
+  &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;
+  &lt;filter-class&gt;
+   org.springframework.web.filter.CharacterEncodingFilter
+  &lt;/filter-class&gt;
+  &lt;init-param&gt;
+   &lt;param-name&gt;encoding&lt;/param-name&gt;
+   &lt;param-value&gt;UTF-8&lt;/param-value&gt;
+  &lt;/init-param&gt;
+  &lt;init-param&gt;
+   &lt;param-name&gt;forceEncoding&lt;/param-name&gt;
+   &lt;param-value&gt;true&lt;/param-value&gt;
+  &lt;/init-param&gt;
+ &lt;/filter&gt;
+ &lt;filter-mapping&gt;
+  &lt;filter-name&gt;encodingFilter&lt;/filter-name&gt;
+  &lt;url-pattern&gt;/*&lt;/url-pattern&gt;
+ &lt;/filter-mapping&gt;
+   
+ &lt;servlet&gt;
+  &lt;servlet-name&gt;spring&lt;/servlet-name&gt;
+  &lt;servlet-class&gt;org.springframework.web.servlet.DispatcherServlet&lt;/servlet-class&gt;
+  &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;
+ &lt;/servlet&gt;
+ &lt;servlet-mapping&gt;
+  &lt;servlet-name&gt;spring&lt;/servlet-name&gt;
+  &lt;url-pattern&gt;/&lt;/url-pattern&gt;
+ &lt;/servlet-mapping&gt;
+	
+&lt;/web-app&gt;</pre>
+		<p>Notre application s'appelle blog et définit le dispatcher spring.</p>
+		<h2>Le contexte spring</h2>
+		<p>le fichier spring-servlet.xml décrit les beans et services chargés dans le contexte spring.</p>
+		<pre>
+&lt;context:annotation-config /&gt;
+&lt;context:component-scan base-package="fr.prez.blog" /&gt;
+&lt;aop:aspectj-autoproxy /&gt;
+
+&lt;!-- Support pour les annotations spécifiques au mvc --&gt;
+&lt;mvc:annotation-driven /&gt;
+
+&lt;!-- Forwarde les demandes de fichiers statiques 
+  vers la servlet par défaut du conteneur --&gt;
+&lt;mvc:default-servlet-handler /&gt;
+
+&lt;!-- Configure la technologie de templating --&gt;
+&lt;bean id="jspViewResolver"
+  class="org.springframework.web.servlet.view.InternalResourceViewResolver"&gt;
+	&lt;property name="viewClass"
+	  value="org.springframework.web.servlet.view.JstlView" /&gt;
+	&lt;property name="prefix" value="/WEB-INF/jsp/" /&gt;
+	&lt;property name="suffix" value=".jsp" /&gt;
+&lt;/bean&gt;
+</pre>
+		<p>Il contient les éléments de base d'une application web avec spring.</p>
+		<p>Nous définirons tous les autres éléments via le scan de composants.</p>
+		<h2>Lancement du serveur web</h2>
+		<p>On peut lancer le conteneur tomcat avec le menu Run &gt; Run as... &gt; Run on Server.</p>
+		<p>Ce menu est également accessible en menu contextuel (click droit) sur le projet.</p>
+		<img alt="" src="images/tomcat-launch.png" style="margin:0 120px;">
+		<p>Un click sur Finish et le serveur démarre.</p>
+		<pre class="shell" style="overflow: hidden;">
+16 févr. 2011 09:01:14 org.apache.catalina.core.AprLifecycleListener init
+INFO: The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: C:\Program Files (x86)\Java\jdk1.6.0_22\bin;.;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Program Files\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\ATI Technologies\ATI.ACE\Core-Static;C:\Program Files (x86)\apache-maven-2.1.0\bin;C:\Program Files (x86)\Java\jdk1.6.0_17\bin;C:\Program Files (x86)\jEdit;C:\Program Files (x86)\Subversion\bin;C:\Program Files (x86)\QuickTime\QTSystem\;C:\Program Files (x86)\gwt-2.1.0;C:\Program Files (x86)\apache-ant-1.8.1\bin;C:\Users\devarf\spring-roo-1.1.0.RELEASE\bin
+16 févr. 2011 09:01:14 org.apache.tomcat.util.digester.SetPropertiesRule begin
+ATTENTION: [SetPropertiesRule]{Server/Service/Engine/Host/Context} Setting property 'source' to 'org.eclipse.jst.jee.server:blog' did not find a matching property.
+16 févr. 2011 09:01:14 org.apache.coyote.http11.Http11Protocol init
+INFO: Initialisation de Coyote HTTP/1.1 sur http-8080
+16 févr. 2011 09:01:14 org.apache.catalina.startup.Catalina load
+INFO: Initialization processed in 419 ms
+16 févr. 2011 09:01:14 org.apache.catalina.core.StandardService start
+INFO: Démarrage du service Catalina
+16 févr. 2011 09:01:14 org.apache.catalina.core.StandardEngine start
+INFO: Starting Servlet Engine: Apache Tomcat/6.0.30
+16 févr. 2011 09:01:15 org.apache.catalina.loader.WebappClassLoader validateJarFile
+INFO: validateJarFile(C:\Users\devarf\Documents\workspace-sts\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\blog\WEB-INF\lib\servlet-api-2.4.jar) - jar not loaded. See Servlet Spec 2.3, section 9.7.2. Offending class: javax/servlet/Servlet.class
+log4j:WARN No appenders could be found for logger (org.springframework.web.servlet.DispatcherServlet).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+16 févr. 2011 09:01:15 org.apache.catalina.core.ApplicationContext log
+INFO: Initializing Spring FrameworkServlet 'spring'
+16 févr. 2011 09:01:17 org.apache.coyote.http11.Http11Protocol start
+INFO: Démarrage de Coyote HTTP/1.1 sur http-8080
+16 févr. 2011 09:01:17 org.apache.jk.common.ChannelSocket init
+INFO: JK: ajp13 listening on /0.0.0.0:8009
+16 févr. 2011 09:01:17 org.apache.jk.server.JkMain start
+INFO: Jk running ID=0 time=0/14  config=null
+16 févr. 2011 09:01:17 org.apache.catalina.startup.Catalina start
+INFO: Server startup in 2252 ms</pre>
+		<p>Pour que les liens en absolu fonctionnent dans notre application, nous allons déployer notre application dans le contexte root.</p>
+		<p>Sous eclipse, il faut double cliquer sur le serveur tomcat avec d'accéder à sa configuration.</p>
+		<img alt="" src="images/eclipse-tomcat.png" style="margin:0 130px;">
+		<p>Dans l'onglet modules, il est possible de spécifier le contexte de déploiement.</p>
+		<img alt="" src="images/eclipse-tomcat-modules.png" width="840">
+		<p>Il faut ensuite sauver cette configuration et redémarrer le serveur tomcat afin que cela soit pris en compte.</p>
+		<p>Normalement <a href="http://localhost:8080/" target="_blank">la page de home</a> devrait désormais répondre</p>
+		<h2>Architecture</h2>
+		<p>Voici un aperçu rapide des composants en place pour ce blog.</p>
+		<img alt="" src="images/blog-architecture.png" width="600" style="margin:0 100px;"/>
+		<h3>Le modèle</h3>
+		<p>Pour le moment, le modèle est constitué de la fr.prez.blog.domain.Post.</p>
+		<p>Nous rajouterons la classe Comment plus tard.</p>
+		<h3>Solr</h3>
+		<p>La configuration de solr est dans le home de solr, dans le répertoire conf.</p>
+		<p>Grâce au component-scan, spring trouve le bean de configuration SpringConfiguration qui définit le SolrServer.</p>
+		<p>Le service PostService utilise l'api solrj afin d'attaquer l'index solr.</p>
+		<h3>AdminController</h3>
+		<p>Il permet de lister, ajouter, éditer et supprimer des Posts.</p>
+		<p>Il forward vers les vues edit.jsp et list.jsp quand cela est nécessaire.</p>
+		<p>Le TagsPropertyEditor permet de gérer la conversion entre une List de String et une String (liste de tags séparés par des virgules).</p>
+		<h3>BlogController</h3>
+		<p>Pour le moment, il gère la page d'index et la page de détails d'un Post.</p>
+		<p>Il forward vers les fichiers jsp index.jsp et post.jsp.</p>
+		<h3>Les fichiers tags</h3>
+		<p>Ce sont les blocs réutilisables entre les pages.</p>
+		<h2>Quelques changements</h2>
+		<p>Changer le titre du blog ("Titre blog") dans le head et dans la page.</p>
+		<p>Changer le compte twitter dans le header.</p>
+		<h2>Faire marcher la recherche</h2>
+		<p>Comme nous utilisons solr, la page de recherche est assez peu différente de la page d'index.</p>
+		<h3>Modification du service</h3>
+		<p>Ajoutez une méthode search(String text) dans le PostService.</p>
+		<pre>public List&lt;Post&gt; search(String text) throws SolrServerException</pre>
+		<p>Cette méthode repose sur la méthode list(SolrQuery query).</p>
+		<h3>Le controleur</h3>
+		<p>Ajoutez une méthode search(String query, Model model) dans le PostController.</p>
+		<pre>
+@RequestMapping("/recherche")
+public String search(String query, Model model) throws SolrServerException</pre>
+		<p>Cette méthode va utiliser la méthode que nous avons ajouté au service.</p>
+		<p>Elle doit rediriger vers la jsp /WEB-INF/jsp/search.jsp qui n'existe pas pour le moment.</p>
+		<h3>La boîte de recherche</h3>
+		<p>Trouvez et modifier la boîte de recherche afin qu'elle pointe vers notre méthode du controleur.</p>
+		<h3>La page de résultat</h3>
+		<p>Dupliquez la page index.jsp afin de créer la page search.jsp.</p>
+		<p>Afin d'afficher la requête en cours, il faut penser à passer l'attibut query dans le model depuis le controleur.</p>
+		<p>Le code suivant dans la jsp permet de l'afficher.</p>
+		<pre>&lt;div&gt;Votre recherche : ${fn:escapeXml(query)}&lt;/div&gt;</pre>
+		<h2>La sécurité</h2>
+		<p>Actuellement, tout le monde peut accéder aux pages d'administration.</p>
+		<p>Nous allons utliser spring-security afin de sécuriser ces pages.</p>
+		<h3>Le filtre</h3>
+		<p>Ajoutez le filtre org.springframework.web.filter.DelegatingFilterProxy qui intercepte toutes les requêtes (/*).</p>
+		<p>Ce filtre doit se nommer (filter-name) springSecurityFilterChain.</p>
+		<h3>La configuration</h3>
+		<p>Afin de <a href="http://static.springsource.org/spring-security/site/docs/3.0.x/reference/ns-config.html" class="external" target="_blank">configurer spring security</a>, il faut ajouter le fichier spring-security.xml dans WEB-INF.</p>
+		<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;beans:beans xmlns="http://www.springframework.org/schema/security"
+  xmlns:beans="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/security
+           http://www.springframework.org/schema/security/spring-security-3.0.3.xsd"&gt;
+   
+   &lt;http auto-config="true"&gt;
+      &lt;intercept-url pattern="/admin/**" access="ROLE_ADMIN"/&gt;
+   &lt;/http&gt;
+   
+   &lt;authentication-manager&gt;
+      &lt;authentication-provider&gt;
+         &lt;user-service&gt;
+           &lt;user name="admin" password="admin" authorities="ROLE_ADMIN" /&gt;
+         &lt;/user-service&gt;
+       &lt;/authentication-provider&gt;
+   &lt;/authentication-manager&gt;
+   
+&lt;/beans:beans&gt;</pre>
+		<p>En pratique en entreprise, l'authentification repose sur des bases de données, des annuaires ldap ou même des protocoles comme OpenID (comme google accounts).</p>
+		<h3>Le chargement de la configuration</h3>
+		<p>Il ne reste plus qu'a charger cette configuration au démarrage du serveur.</p>
+		<p>Cela se fait en rajoutant le listener suivant dans le web.xml.</p>
+		<pre>
+&lt;listener&gt;
+   &lt;listener-class&gt;org.springframework.web.context.ContextLoaderListener&lt;/listener-class&gt;
+&lt;/listener&gt;
+&lt;context-param&gt;
+   &lt;param-name&gt;contextConfigLocation&lt;/param-name&gt;
+   &lt;param-value&gt;/WEB-INF/spring-security.xml&lt;/param-value&gt;
+&lt;/context-param&gt;</pre>
+		<h3>Logout</h3>
+		<p>Par défaut, spring security exécute l'action de logout via l'url /j_spring_security_logout</p>
+		<p>Il est possible de le changer via la configuration suivante</p>
+		<pre>&lt;logout logout-url="/logout" /&gt;</pre>
+		<p>La <a href="http://static.springsource.org/spring-security/site/docs/3.0.x/reference/taglibs.html" class="external" target="_blank">librairie le tags de spring security</a> est utilisable dans les jsp avec la déclaration suivante</p>
+		<pre>&lt;%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %&gt;</pre>
+		<p>En s'inspirant de la documentation, ajoutez un lien de logout si la personne est connectée.</p>
+		<h3>Basic auth</h3>
+		<p>L'authentification de type BASIC est souvent pratique dans le cas de services B2B.</p>
+		<p>Avec un browser, c'est le navigateur qui négocie l'authentification et propose un formulaire de login.</p>
+		<p>Afin de ne proposer que l'authentification de type BASIC il suffit de retirer l'attribut auto-config et d'ajouter le tag &lt;http-basic /&gt;</p>
+		<p>Un effet de bord est que le bouton logout ne semble plus fonctionner.</p>
+		<h2>Le flux rss</h2>
+		<p>Le <a href="http://www.rssboard.org/rss-specification" class="external" target="_blank">rss (Really Simple Syndication)</a> est un format xml pour la syndication décrivant une liste d'éléments.</p>
+		<pre>
+&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;
+&lt;rss version="2.0"&gt;
+    &lt;channel&gt;
+        &lt;title&gt;Mon site&lt;/title&gt;
+        &lt;description&gt;Ceci est un exemple de flux RSS 2.0&lt;/description&gt;
+        &lt;lastBuildDate&gt;Sat, 07 Sep 2002 00:00:01 GMT&lt;/lastBuildDate&gt;
+        &lt;link&gt;http://www.example.org&lt;/link&gt;
+        &lt;item&gt;
+            &lt;title&gt;Actualité N°1&lt;/title&gt;
+            &lt;description&gt;Ceci est ma première actualité&lt;/description&gt;
+            &lt;pubDate&gt;Sat, 07 Sep 2002 00:00:01 GMT&lt;/pubDate&gt;
+            &lt;link&gt;http://www.example.org/actu1&lt;/link&gt;
+        &lt;/item&gt;
+    &lt;/channel&gt;
+&lt;/rss&gt;</pre>
+		<p>La double force du rss est sa simplicité et son extensibilité.</p>
+		<p>ROME (<u>R</u>SS and At<u>om</u> Utiliti<u>e</u>s) est une librarie java qui permet de générer des RSS et des flux Atom.</p>
+		<p>De son coté spring MVC offre un support de premier ordre pour la génération de RSS via ROME.</p>
+		<p>Le lien vers le rss dans le header est /rss. On déclare donc la méthode suivante dans le BlogController.</p>
+		<pre>
+@RequestMapping("/rss")
+@ResponseBody
+public Channel rss() throws SolrServerException {
+   ...
+}</pre>
+		<p>Il suffit de créer et remplir correctement le modèle représentant un Channel RSS et spring s'occupe de la conversion en xml.</p>
+		<pre>
+Channel channel = new Channel();
+
+channel.setFeedType("rss_2.0");
+channel.setTitle("Mon flux rss");
+channel.setDescription("Description");
+channel.setLink("http://localhost:8080/rss");
+
+<span class="comment">// fill items</span>
+
+return channel;</pre>
+		<p>Si l'objet Channel est correctement rempli, on obtient un contenu xml qui ressemble à l'exemple suivant.</p>
+		<pre>
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;rss version="2.0"&gt;
+  &lt;channel&gt;
+    &lt;title&gt;Mon flux rss&lt;/title&gt;
+    &lt;link&gt;http://localhost:8080/rss&lt;/link&gt;
+    &lt;description&gt;Description&lt;/description&gt;
+    &lt;item&gt;
+      &lt;title&gt;un titre méé&lt;/title&gt;
+      &lt;link&gt;http://localhost:8080/8d51bb75-cb02-4e43-9a07-0ee43c8c2d31&lt;/link&gt;
+      &lt;pubDate&gt;Sun, 10 Oct 2010 08:00:00 GMT&lt;/pubDate&gt;
+      &lt;author&gt;moi&lt;/author&gt;
+    &lt;/item&gt;
+  &lt;/channel&gt;
+&lt;/rss&gt;</pre>
+		<h2>Json</h2>
+		<p>Il est possible aussi simplement de retourner du json grâce à la librairie Jackson présente dans le classpath.</p>
+		<pre>
+@RequestMapping("index.json")
+@ResponseBody
+public List&lt;Post&gt; indexJson(Model model) throws SolrServerException {
+   return postService.index();
+}</pre>
+		<p>Spring et jackson s'occupent automatiquement de la conversion.</p>
+		<p>Comment ferait on afin d'ajouter le support pour jsonp ?</p>
+		<h2>Faire marcher la recherche par tag</h2>
+		<p>La recherche par tag permettrait de faire fonctionner les liens dans le bloc "Tags".</p>
+		<p>Il suffit de modifier la méthode search du BlogController.</p>
+		<pre>public String search(String query, String tag, Model model)</pre>
+		<p>Le PostService doit aussi supporter ce paramètre supplémentaire.</p>
+		<pre>public List<Post> search(String text, String tag)</pre>
+		<p>Son implémentation doit être modifiée afin de supporter ce nouveau paramètre.</p>
+		<pre>
+if (StringUtils.isEmpty(text)) {
+   text = ALL_POSTS;
+}
+
+SolrQuery query = new SolrQuery(text);
+
+if (StringUtils.isNotEmpty(tag)) {
+   query.addFilterQuery("tags:" + tag);
+}
+
+query.addSortField("date", ORDER.desc);
+query.setRows(5);
+
+return list(query);</pre>
+		<h2>La liste de tags</h2>
+		<p>La méthode permettant de récupérer tous les tags utilisés est la suivante.</p>
+		<pre>
+public List&lt;Count&gt; findTags() throws SolrServerException {
+   SolrQuery query = new SolrQuery(ALL_POSTS);
+   query.addFacetField("tags");
+	
+   return solrServer.query(query).getFacetField("tags").getValues();
+}</pre>
+		<p>Comment peut on injecter cette liste dans tous les Models et afficher les 5 premier tags dans le fichier tags.tag ?</p>
+		<h2>Pouvoir ajouter des commentaires</h2>
+		<p>Si on voulait gérer les commenaires dans les billets, quels seraient les opérations à ajouter ?</p>
+		<h2>La widget archives</h2>
+		<p>Comment pourrait on injecter la liste d'archives dans toutes les vues ?</p>
+		<h2>Pagination des listings</h2>
+		<p>Comment pourrait on paginer les pages de listing de billets ?</p>
+	</body>
+</html>

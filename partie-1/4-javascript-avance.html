@@ -1,0 +1,578 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+	    <title>Javascript avancé</title>
+	    
+		<link href="../static/css.css" rel="stylesheet" type="text/css">
+	    <link id="prettify-link" href="../static/prettify.css" rel="stylesheet" disabled="">
+	    <link href="../static/moon.css" class="theme" rel="stylesheet">
+	    <link href="../static/sand.css" class="theme" rel="stylesheet">
+	    <link href="../static/sea_wave.css" class="theme" rel="stylesheet">
+	    <link href="../static/default.css" class="theme" rel="stylesheet">
+	  	
+	    <link href="../static/dev.css" class="theme" rel="stylesheet">
+	    
+	    <script src="../static/jquery/jquery-1.4.4.min.js"></script>
+	    <script src="../static/jquery/jquery.xcolor.js"></script>
+	    <script src="../static/jquery/jquery.validate.js"></script>
+	    <link type="text/css" href="../static/jquery/smoothness/jquery-ui-1.8.7.custom.css" rel="stylesheet" />	
+	    <script src="../static/jquery/jquery-ui-1.8.7.custom.min.js"></script>
+	    <script type="text/javascript">
+	    	jQuery.fn.outerHTML = function(s) {
+	  		return (s)
+	  		? this.before(s).remove()
+	  		: jQuery("<p>").append(this.eq(0).clone()).html();
+	  		}
+	    </script>
+	    
+	    <script src="../static/code.js"></script>
+	    <script src="../static/prettify.js" onload="prettyPrint();"></script>
+	    <script src="../static/js"></script>
+   		<script src="../static/main.js" type="text/javascript"></script>
+	    
+	    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  	</head>
+  	<body>
+    <div class="presentation">
+      <div id="presentation-counter">Chargement...</div>
+      <div style="display: block;" class="slides">
+	      <div class="slide">
+			<style>
+			  #landing-slide p {
+			    font-size: 35px;
+			  }
+			</style>
+			<section id="landing-slide" class="middle">
+			  <p>Javascript avancé</p>
+			</section>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Les frameworks</header>
+	        <section>
+	        	<p>Afin de s'affranchir des différences entre les navigateurs et accélérer le développement, le framework est un passage obligé pour faire des applications riches.</p>
+	        	<p>Quelques frameworks javascript :</p>
+	        	<ul>
+		        	<li><b><a href="http://jquery.com/" class="external" target="_blank">jquery</a></b></li>
+		        	<li><a href="http://developer.yahoo.com/yui/" class="external" target="_blank">Yahoo UI</a></li>
+		        	<li><a href="http://dojotoolkit.org/" class="external" target="_blank">Dojo</a></li>
+		        	<li><a href="http://jquery.com/" class="external" target="_blank">Ext</a></li>
+		        	<li><a href="http://mootools.net/" class="external" target="_blank">Mootools</a></li>
+		        	<li><a href="http://script.aculo.us/" class="external" target="_blank">Scriptaculous</a></li>
+		        	<li><a href="http://code.google.com/intl/fr-FR/webtoolkit/" class="external" target="_blank">GWT</a></li>
+		        </ul>
+		        <p>Le javascript étant très flexible, il peut y avoir des écarts important entre les frameworks.</p>
+	        </section>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Jquery, write less , do more</header>
+	        <section>
+<pre>
+&lt;script src="static/jquery-[version].js"&gt;&lt;/script&gt;
+</pre>
+	        	<p><i>jQuery is a fast and concise JavaScript Library that simplifies HTML document traversing,
+	        	 event handling, animating, and Ajax interactions for rapid web development.</i></p>
+	        	 <p><i>jQuery is designed to change the way that you write JavaScript.</i></p>
+	        	 <p>Comme tous les frameworks javascript modernes, il est extensible via <a href="http://plugins.jquery.com/" class="external" target="_blank">plugins</a>.</p>
+<pre>
+<button onclick="$('#jquery').show('slow');">Afficher</button> $('#jquery').show('slow');
+<button onclick="$('#jquery').hide('fast');">Masquer</button> $('#jquery').hide('fast');
+</pre>
+<p id="jquery" style="display:none;">
+	Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est eleifend mi, non fermentum diam nisl sit amet erat. Duis semper. Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim. Pellentesque congue. Ut in risus volutpat libero pharetra tempor. Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum.
+</p>
+	        </section>
+	        <p class="source">http://jquery.com/</p>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Elements de base</header>
+	        <section>
+	        	<p>Le fonctionnement de base de jQuery est de sélectionner des éléments de la page et de les manipuler.</p>
+	        	<p>On sélectionne un élément en utilisant la fonction jQuery.</p>
+<pre>jQuery( selector )</pre>
+				<p>Jquery supporte une gamme de sélecteur proche des sélecteurs disponibles en CSS 3.</p>
+				<p>Afin de rendre la synthaxe plus courte et élégante, le framework définit la fonction $() qui a le même but que jQuery()</p>
+<pre>$( selector )</pre>				
+	        	<p>Une fois un ou plusieurs élements sélectionnés, jQuery offre beaucoup de fonctions afin d'interagir avec eux.</p>
+	        </section>
+	      </div>
+	      
+	      <div class="slide">
+	      	<script type="text/javascript">
+		      	function jquerySelectorSelect() {
+		      		$('#jquerySelector-selection').text($($('#jquerySelector-selector').val()).outerHTML());
+		      	}
+	      	</script>
+	        <header>Sélecteurs</header>
+	        <section>
+	        	<p>Un sélecteur permet d'obtenir une référence sur un noeud de l'arbre DOM.</p>
+	        	<p>Les <a href="http://api.jquery.com/category/selectors/" class="external" target="_blank">possibilités de sélection</a> sont très vastes.</p>
+<pre>
+Le selecteur $ jquery :
+$("{node}") :
+$("#{id}") : 
+$(".{class}") :
+$(":first") / $(":last") :
+exemple : $("p.selector2:first")
+</pre>
+<pre>
+&lt;p id="selector1"&gt;un paragraphe pas très long&lt;/p&gt;
+&lt;p class="selector2"&gt;un autre également&lt;/p&gt;
+
+<input type="text" id="jquerySelector-selector" size="10" /> <button onclick="jquerySelectorSelect();">-&gt;</button> : <span id="jquerySelector-selection"></span>
+</pre>
+				<div style="display:none">
+				 <p id="selector1">un paragraphe pas très long</p>
+				 <p class="selector2">un autre également</p>
+				</div>
+	        </section>
+	        <p class="source">http://api.jquery.com/category/selectors/</p>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Le chargement de l'arbre DOM</header>
+	        <section>
+	        	<p>Avant de manipuler l'arbre DOM, il faut attendre qu'il soit complètement chargé.</p>
+	        	<p>jQuery fournit la fonction <a href="http://api.jquery.com/ready/" class="external" target="_blank">ready</a> pour cela.</p>
+	        	<pre>$(document).ready(function() {
+   console.log('ready!');
+});</pre>
+				<p>Tout ce qui s'exécute dans l'appel de notre fonction est donc sûr que tout les éléments du DOM sont chargés et disponibles.</p>
+	        </section>
+	      </div>
+	      
+	      <div class="slide">
+	      	<script type="text/javascript">
+				var jqueryEventCount = 0;
+				var jqueryEventHoverCount = 0;
+	      	
+		      	$(document).ready(function() {
+	      			$("#jqueryEvent-button").click(function() {
+			      		jqueryEventCount++;
+				      	
+			      		$("#jqueryEvent-count").text(jqueryEventCount);	
+		      		});
+
+	      			$("#jqueryEvent-hover").hover(function() {
+	      				jqueryEventHoverCount++;
+				      	
+			      		$("#jqueryEvent-hoverCount").text(jqueryEventHoverCount);	
+		      		});
+	      		});
+	      	</script>
+	        <header>Evénements</header>
+	        <section>
+<pre>
+var jqueryEventCount = 0;
+
+$("#jqueryEvent-button").click(function() {
+  jqueryEventCount++;
+			      	
+  $("#jqueryEvent-count").text(jqueryEventCount);	
+});
+
+<button id="jqueryEvent-button">Click</button> <span id="jqueryEvent-count">0</span> clicks
+
+
+var jqueryEventHoverCount = 0;
+
+$("#jqueryEvent-button").hover(function() {
+  jqueryEventHoverCount++;
+			      	
+  $("#jqueryEvent-count").text(jqueryEventCount);	
+});
+
+<span id="jqueryEvent-hover" class="html">Hover me</span> <span id="jqueryEvent-hoverCount">0</span> hovers
+</pre>
+	        </section>
+	        <p class="source">http://api.jquery.com/category/events/</p>
+	      </div>
+	      
+	      <div class="slide">
+	      	<style>
+	      		#jqueryGraph {
+	      			width:600px;
+	      			height:200px;
+	      			border-left:1px black solid;
+	      			border-bottom:1px black solid;
+	      			position: absolute;
+	      			left:150px;
+	      		}
+	      		
+	      		.jqueryGraph-column {
+					background-color: #fff;
+	      			width:50px;
+	      			height:0px;
+	      			position: absolute;
+	      		}
+	      		
+	      		#jqueryGraph-column-0 {
+	      			left:50px;
+	      			bottom: 0;
+	      		}
+	      		
+	      		#jqueryGraph-column-1 {
+	      			left:150px;
+	      			bottom: 0;
+	      		}
+	      		
+	      		#jqueryGraph-column-2 {
+	      			left:250px;
+	      			bottom: 0;
+	      		}
+	      		
+	      		#jqueryGraph-column-3 {
+	      			left:350px;
+	      			bottom: 0;
+	      		}
+	      		
+	      		#jqueryGraph-column-4 {
+	      			left:450px;
+	      			bottom: 0;
+	      		}
+	      	</style>
+	      	<script type="text/javascript">
+	      		var graphPresets1 = [[150, "#8C66FF"], [50, "#FF668C"], [20, "#66FF8C"], [180, "#FF66D9"], [110, "#FFD966"]];
+	      		var graphPresets2 = [[20, "#66FF8C"], [140, "#FFD966"], [10, "#FF66D9"], [150, "#8C66FF"], [50, "#FF668C"]];
+	      		var graphPresets3 = [[150, "#FF66D9"], [10, "#8C66FF"], [130, "#FF668C"], [70, "#FFD966"], [20, "#66FF8C"]];
+	      	
+	      		function jqueryGraphAnimate(presets) {
+		      		for (i = 0; i < 5; i++) {
+		      			$('#jqueryGraph-column-' + i).animate(
+			      			{
+			      				height : presets[i][0],
+			      				backgroundColor : presets[i][1]
+			      			}, 1000
+			      		);
+		      		}
+	      		}
+	      		
+	      		$(document).ready(function() {
+	      			$("#jqueryGraph-button1").click(function() {jqueryGraphAnimate(graphPresets1)});
+	      			$("#jqueryGraph-button2").click(function() {jqueryGraphAnimate(graphPresets2)});
+	      			$("#jqueryGraph-button3").click(function() {jqueryGraphAnimate(graphPresets3)});
+	      		});
+	      	</script>
+	        <header>Animation</header>
+	        <section>
+<pre>
+<button id="jqueryGraph-button1">presets 1</button> <button id="jqueryGraph-button2">presets 2</button> <button id="jqueryGraph-button3">presets 3</button>
+
+for (i = 0; i < 5; i++) {
+   $('#jqueryGraph-column-' + i).animate(
+      {
+         height : presets[i][0],
+         backgroundColor : presets[i][1]
+      }, 1000
+   );
+}
+</pre>
+	          <div id="jqueryGraph">
+	          	<div class="jqueryGraph-column" id="jqueryGraph-column-0"></div>
+	          	<div class="jqueryGraph-column" id="jqueryGraph-column-1"></div>
+	          	<div class="jqueryGraph-column" id="jqueryGraph-column-2"></div>
+	          	<div class="jqueryGraph-column" id="jqueryGraph-column-3"></div>
+	          	<div class="jqueryGraph-column" id="jqueryGraph-column-4"></div>
+	          </div>
+	        </section>
+	        <p class="source">http://api.jquery.com/category/effects/</p>
+	      </div>
+	      
+	      <div class="slide">
+	      	<script type="text/javascript">
+	      		$(document).ready(function() {
+	      			$("#jqueryForm").validate();
+	      		});
+	      	</script>
+	        <header>Validation</header>
+	        <section>
+<pre>$("#jqueryForm").validate();</pre>
+<pre>
+&lt;form id="jqueryForm"&gt;
+  &lt;label for="cname"&gt;Nom (requis, au moins 2 caractères)&lt;/label&gt;
+  &lt;input id="jqueryForm-name" class="<b>required</b>" <b>minlength="2"</b>&gt;
+  &lt;label for="jqueryForm-email">Email (requis, adresse valide)&lt;/label&gt;
+  &lt;input id="jqueryForm-email" class="<b>required email</b>"&gt;
+  &lt;input type="submit"&gt;
+&lt;/form&gt;
+</pre>
+<pre>
+<form id="jqueryForm">
+	<label for="jqueryForm-name">Nom (requis, au moins 2 caractères)</label>
+	<input id="jqueryForm-name" class="required" minlength="2">
+	<label for="jqueryForm-email">Email (requis, adresse valide)</label>
+	<input id="jqueryForm-email" class="required email">
+	<input type="submit">
+</form>
+</pre>
+	        </section>
+	        <p class="source">http://docs.jquery.com/Plugins/Validation</p>
+	      </div>
+	      
+	      <div class="slide">
+	      	<style>
+			#jqueryCalculator-calculator {
+				margin: 0pt auto;
+				width: 165px;
+				border: 3px double #000;
+				padding: 3px;
+			}
+			
+			#jqueryCalculator-calculator .result {
+				padding-right: 5px;
+				border: 1px solid #000;
+				text-align: right;
+				font-size: 18px;
+				font-weight: bold;
+			}
+			
+			#jqueryCalculator-calculator .digits ul {
+				list-style-type: none;
+				float: left;
+				font-family: Courier;
+				font-weight: bold;
+				font-size: 14px;
+				margin: 0pt;
+				padding: 0pt;
+			}
+			
+			#jqueryCalculator-calculator .digits ul li {
+				padding: 12px;
+				margin: 3px;
+				border: 1px solid #000;
+				background-color: #eee;
+				cursor: pointer;
+			}
+			</style>
+	      	<script type="text/javascript">
+	      		$(document).ready(function() {
+	      			jqueryCalculatorBuffer = 0;
+					jqueryCalculatorWasOperator = false;
+					result = $("#jqueryCalculator-calculator-result");
+	      			
+					$("#jqueryCalculator-calculator li").each(function(i, e) {
+	      				$(e).click(function() {
+							if ("+" == $(e).text()) {
+								jqueryCalculatorBuffer = parseInt(result.text());
+								jqueryCalculatorWasOperator = true;
+							} else if ("=" == $(e).text()) {
+								result.text(jqueryCalculatorBuffer + parseInt(result.text()));
+								jqueryCalculatorBuffer = 0;
+								jqueryCalculatorWasOperator = true;
+							} else {
+								if ("0" == result.text() || jqueryCalculatorWasOperator) {result.text("");jqueryCalculatorWasOperator=false}
+								result.text(result.text() + $(e).text());
+							}
+		      			});
+		      		});
+	      		});
+	      	</script>
+	        <header>Développement par les tests et javascript</header>
+	        <section>
+	        	<p>Le javascript est souvent utilisé afin d'obtenir des effets visuels.</p>
+	        	<p>Bien qu'il soit possible de tester automatiquement une interface graphique HTML, c'est relativement complexe à mettre en place.</p>
+	        	<p>Le rendu d'une animation ne peut être appricié que pas l'oeil humain.</p>
+	        	<p>Cependant, on peut aisément parvenir à isoler et tester unitaire même en javacript.</p>
+	        	<p>Qunit est le framework de test fourni avec jquery. Nous allons voir comment l'utiliser.</p>
+				<a href="projets/calculator/index.html" class="project" target="_blank" style="float:right;">Une calculatrice</a>
+	        </section>
+	        <p class="source">http://zoulcreations.com/projects/jquery/calculator.html</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>L'échange de données avec le serveur</header>
+	        <section>
+	        	<p>Le javascript est capable de faire des requêtes vers le serveur afin de récupérer des données.</p>
+	        	<p>L'objet permettant cela est le <b>XmlHttpRequest</b> mais son implémentation diffère en fonction du navigateur.</p>
+	        	<p><b>AJAX</b> est l'utilisation de cet objet pour charger dynamiquent du contenu.</p>
+	          	<pre>function createXhrObject() {
+  if (window.XMLHttpRequest) return new XMLHttpRequest();
+ 
+  if (window.ActiveXObject) {
+    var names = ["Msxml2.XMLHTTP.6.0", "Msxml2.XMLHTTP.3.0",
+      "Msxml2.XMLHTTP", "Microsoft.XMLHTTP"];
+    for(var i in names) {
+      try{ return new ActiveXObject(names[i]); }
+      catch(e){}
+    }
+  }
+  return null; <span class="comment">// non supporté</span>
+}</pre>
+				<p>Une fois l'objet créé, on peut faire des requêtes vers le serveur et récupérer des données de n'importe quel format texte : plain, XML, HTML, JSON...</p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	      	<script type="text/javascript">
+	      		function ajaxHello() {
+			      	$.ajax({
+			      	  url: "samples/ajax-hello.json",
+			      	  success: function(msg){
+			      	    alert( "données: " + msg );
+			      	  }
+			      	})
+		      	}
+
+	      		function ajaxHelloJson() {
+	      			$.ajax({
+				      	  url: "samples/ajax-hello.json",
+				      	  dataType : "json",
+				      	  success: function(object){
+				      	    alert( "données: " + object.att1 );
+				      	  }
+				      	})
+		      	}
+	      	</script>
+	        <header>Les requêtes avec jquery</header>
+	        <section>
+	        	<p>jquery facilite les appels au serveur en prenant en charge la compatibilité.</p>
+	        	<pre>$.ajax({
+  url: "samples/ajax-hello.json",
+  success: function(msg){
+    alert( "données: " + msg );
+  }
+}); <button onclick="ajaxHello();">Exécuter</button> <span class="comment">// ne fonctionne pas sous chrome</span></pre>
+				<p>Le JSON étant supporté nativement en javascript, il est possible d'évaluer (eval()) le résultat afin d'obtenir simplement des objets.</p>
+				<pre>$.ajax({
+  url: "samples/ajax-hello.json", dataType : "json",
+  success: function(object){
+    alert( "données: " + object.att1 );
+  }
+}); <button onclick="ajaxHelloJson();">Exécuter</button> <span class="comment">// ne fonctionne pas sous chrome</span></pre>
+	        </section>
+	        <p class="source">http://api.jquery.com/jQuery.ajax/</p>
+	      </div>
+	      
+	      <div class="slide">
+	        <header>Reverse Ajax</header>
+	        <section>
+	        	<p>Il existe 2 techniques afin d'obtenir régulièrement des données depuis le serveur : </p>
+	        	<p>le <b>polling</b> depuis le client : faire une requête vers le serveur toutes les n secondes.</p>
+	        	<p>le <b>push</b> depuis le serveur : le client reçoit régulièrement des données depuis le serveur.</p>
+	        	<p>Il n'existe pas de standard pour la seconde solution mais une liste de pattern dont le plus courant est le <b>XMLHttpRequest long polling</b></p>
+	        	<p>Coté serveur, ce modèle d'échange est appelé <a href="http://en.wikipedia.org/wiki/Comet_%28programming%29" class="external" target="_blank">comet</a></p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Reverse_Ajax</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>La sécurité</header>
+	        <section>
+	        	<p>Le javascript est soumis a 2 restrictions afin de limiter les risques de piratage :</p>
+	        	<p>La <b>sandbox</b> : le javascript ne peut éxécuter qu'un nombre limité d'opérations et les interactions avec l'os sont très encadrées.</p>
+	        	<p>La <b>same origin policy</b> : le javascript d'une page web ne peut faire des appels que vers son propre domaine.</p>
+	        	<p>Du code malicieux venant d'un serveur tiers ne peut théoriquement pas accéder aux données personnelles (formulaires, cookies...).</p>
+	        	<p>Le Cross Site Scripting (XSS) est une violation de la same origin policy</p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Same_origin_policy</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>JSONP (JSON with Padding)</header>
+	        <section>
+	        	<p>Il existe un pattern permettant de palier aux limitations de cross domain en javascript</p>
+	        	<p>Il est possible d'inclure un fichier javascript en provenance d'un autre domaine.</p>
+	        	<pre>&lt;script type="text/javascript" 
+                     src="http://autredomain.fr/jsonp?callback=foo"&gt;
+&lt;/script&gt;</pre>
+				<p>Le code présent dans le fichier est éxécuté : le problème est que le code distant n'a aucune connaissance sur la page hôte.</p>
+				<p>Le code va donc faire appel à une méthode en local afin de redonner la main à la page courante.</p>
+				<pre>var serverData = { name : 'John', surname : 'Doe' }
+foo(serverData);</pre>
+				<p>La page hôte n'a donc plus qu'a définir la fonction foo afin d'être appelé quand le code injecté est exécuté.</p>
+				<p>Encore une fois, jquery propose un API afin de faciliter les requêtes aux serveurs en <a href="http://api.jquery.com/jQuery.ajax" class="external" target="_blank">JSONP</a>.</p>	        	
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/JSON#JSONP</p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>JSONP Flickr</header>
+	        <section>
+	        	<p><a href="http://www.flickr.com/" class="external" target="_blank">Flick</a> est un service de partage de photos et de vidéos.</p>
+	        	<p><a href="http://www.flickr.com/services/api/" class="external" target="_blank">L'api de Flickr</a> est complète et propose la possibilité de faire des requêtes via jsonp.</p>
+	        	<pre>http://api.flickr.com/services/feeds/photos_public.gne?format=json</pre>
+	        	<p>Avec jquery, on peut donc simplement écrire.</p>
+	        	<pre>
+$.ajax({
+ url: 'http://api.flickr.com/services/feeds/photos_public.gne?
+  					format=json
+  					&jsoncallback=displayPics',
+ dataType: 'jsonp'
+});
+</pre>
+				<p>La fonction displayPics est donc appelée dès que le script de Flickr est chargé.</p>
+	        </section>
+	        <p class="source">http://www.michaelhamrah.com/blog/2010/02/using-flickr-and-jquery-to-learn-jsonp/</p>
+	      </div>
+	        
+	      <div class="slide">
+	      	<script>
+		      	function flickr() {
+		      		$.ajax({ url: 'http://api.flickr.com/services/feeds/photos_public.gne?format=json&jsoncallback=displayPics',
+		      			 dataType: 'jsonp'
+		      			});
+		      	}
+	      	
+	      		function displayPics(data) {
+	      			$("#flickr").empty();
+	      			
+		      		$("<img>")
+		      			.attr("src", data.items[0].media.m)
+		      			.appendTo($("#flickr"));
+		      	}
+	      	</script>
+	        <header>JSONP Flickr</header>
+	        <section>
+	        	<p>On peut définir la fonction displayPics comme suit.</p>
+	        	<pre>function displayPics(data) {
+   $("#flickr").empty();
+	        	
+   $("&lt;img&gt;")
+      .attr("src", data.items[0].media.m)
+      .appendTo($("#flickr"));
+} <button onclick="flickr();">Exécuter</button></pre>
+				<p id="flickr"></p>
+	        </section>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>JSONP yahoo</header>
+	        <section>
+	        	<p>Il est aussi possible de faire des recherches sur le moteur de recherche de <a href="http://yahoo.com/" class="external" target="_blank">Yahoo</a> en javascript</p>  
+	        	<p>Les <a href="http://developer.yahoo.com/search" class="external" target="_blank">APIs de recherche de yahoo</a> sont riches et proposent évidemment une version JSONP.</p>
+	        </section>
+	        <p class="source"></p>
+	      </div>
+	        
+	      <div class="slide">
+	        <header>JSONP Twitter</header>
+	        <section>
+	        	<p><a href="http://twitter.com/" class="external" target="_blank">Twitter</a> 
+	        	offre de nombreuses <a href="http://dev.twitter.com/doc" class="external" target="_blank">apis</a> et possibilités d'intégration</p>
+	        	<p>Il ainsi possible de construire des clients alternatifs au site web de twitter.</p>
+	        	<p>Twitter a aussi <a href="projets/twitter/index.html" class="project" target="_blank">un api jsonp</a> permettant de récupérer les derniers twitts d'un compte.</p>
+	        </section>
+	        <p class="source"></p>
+	      </div>
+	    
+			<div class="slide">
+			   	<header>A lire</header>
+			     <section class="center">
+			     	<br><br><br><br>
+			     	<p>http://jqfundamentals.com/book/</p>
+			     	<br><br>
+			     	<p>Rebecca Murphey</p>
+			    </section>
+			</div>
+      </div>
+      <!-- slides -->
+
+    </div> <!-- presentation -->
+
+  	</body>
+  </html>

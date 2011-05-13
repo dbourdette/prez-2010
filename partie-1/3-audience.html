@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	    <meta charset="utf-8">
+	    <meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1">
+	    <title>Audience</title>
+	    
+		<link href="../static/css.css" rel="stylesheet" type="text/css">
+	    <link id="prettify-link" href="../static/prettify.css" rel="stylesheet" disabled="">
+	    <link href="../static/moon.css" class="theme" rel="stylesheet">
+	    <link href="../static/sand.css" class="theme" rel="stylesheet">
+	    <link href="../static/sea_wave.css" class="theme" rel="stylesheet">
+	    <link href="../static/default.css" class="theme" rel="stylesheet">
+	  	
+	    <link href="../static/dev.css" class="theme" rel="stylesheet">
+	    
+	    <script src="../static/jquery/jquery-1.4.4.min.js"></script>
+	    <script src="../static/jquery/jquery.xcolor.js"></script>
+	    <script src="../static/jquery/jquery.validate.js"></script>
+	    <link type="text/css" href="../static/jquery/smoothness/jquery-ui-1.8.7.custom.css" rel="stylesheet" />	
+	    <script src="../static/jquery/jquery-ui-1.8.7.custom.min.js"></script>
+	    <script type="text/javascript">
+	    	jQuery.fn.outerHTML = function(s) {
+	  		return (s)
+	  		? this.before(s).remove()
+	  		: jQuery("<p>").append(this.eq(0).clone()).html();
+	  		}
+	    </script>
+	    
+	    <script src="../static/code.js"></script>
+	    <script src="../static/prettify.js" onload="prettyPrint();"></script>
+	    <script src="../static/js"></script>
+   		<script src="../static/main.js" type="text/javascript"></script>
+	    
+	    <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+  	</head>
+  	<body>
+    <div class="presentation">
+      <div id="presentation-counter">Chargement...</div>
+      <div style="display: block;" class="slides">
+      	<div class="slide">
+			<style>
+			  #landing-slide p {
+			    font-size: 35px;
+			  }
+			</style>
+			<section id="landing-slide" class="middle">
+			  <p>Audience</p>
+			</section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Définitions</header>
+	        <section>
+	        	<p>Il existe beaucoup de mesures possibles liées à l'audience d'un site.</p>
+	        	<p>En voici quelques unes.</p>
+	        	<ul>
+	        		<li>Le nombre de pages vues</li>
+	        		<li>Le nombre de visiteurs</li>
+	        		<li>Le nombre de visiteurs uniques</li>
+	        		<li>La durée moyenne de visite</li>
+	        		<li>Le taux de rebond</li>
+	        	</ul>
+	        	<p>Connaitre le volume et la structure de son trafic donne des informations essentielles sur son site.</p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Web_traffic</p>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Collecte</header>
+	        <section>
+	        	<p>La collecte de données de trafic se fait grâce à des <b>trackers</b> présents dans les pages.</p>
+	        	<p>Un tracker est souvent un insert javascript et un peu de code afin de le paramétrer.</p>
+	        	<pre>
+&lt;script src="http://domaine.du.tracker/tracker.js"&gt;&lt;/script&gt;
+
+&lt;script type="text/javascript"&gt;
+   _tracker.trackThisPage();
+&lt;/script&gt;</pre>
+	        	<p>La position du tracker dans la page est importante puisque le navigateur éxécute le javascript au fur et à mesure de se lecture du code source.</p>
+	        	<p>Parmis les technologie de tracking, on peut citer :</p>
+	        	<ul>
+	        		<li>google analytics</li>
+	        		<li>xiti</li>
+	        		<li>estat</li>
+	        	</ul>
+	        </section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Tracker google analytics</header>
+	        <section>
+	        	<p>Le tracker google analytics a la forme suivante.</p>
+	        	<pre>
+<span class="comment">&lt;!-- google analytics --&gt;</span>
+&lt;script type="text/javascript"&gt;
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-XXXXXXX']); <span class="comment">// id compte </span>
+  _gaq.push(['_setDomainName', '.mondomain.fr']); <span class="comment">// domains dns </span>
+  _gaq.push(['_trackPageview']); <span class="comment">// ce que l'on veut tracker </span>
+  (function() {
+    var ga = document.createElement('script'); ga.type = 
+'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 
+'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; 
+s.parentNode.insertBefore(ga, s);
+  })();
+&lt;/script&gt;</pre>
+				<p>Ce qui génère les 2 requêtes suivantes vers les serveur de google.</p>
+				<pre>
+http://www.google-analytics.com/ga.js
+http://www.google-analytics.com/__utm.gif?utmwv=4.8.6&utmn=...
+</pre>
+	        </section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Résultats sur google analytics</header>
+	        <section>
+	        	<p>Voici un tableau de bord pour une période du 29 novembre 2010 au 7 janvier 2011</p>
+	        	<img alt="" src="images/google-analytics.png" width="840px" />
+	        	<p>Google analytics mesure beaucoup de critères et propose en conséquence un nombre important de rapports.</p> 
+	        </section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Référencement</header>
+	        <section>
+	        	<p>Le référencement vise à augmenter son trafic en augmentant les points d'entrée vers son site.</p>
+	        	<p>Il existe plusieurs techniques comme l'<b>amélioration du référencement naturel</b>, <b>le référencement payant</b> et <b>l'échange de liens</b></p>
+	        	<p>L'amélioration du référencemeent naturel est appelé <b>SEO</b> (Search engine optimization)</p>
+	        	<p>La stratégie d'achat de liens sponsorisés sur les moteurs de recherche est appelé <b>SEM</b> (Search engine marketing)</p>
+	        </section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Résultats de recherche</header>
+	        <section>
+	        	<p>Le référencement naturel est la capacité à être dans les premiers résultats d'un moteur de recherche.</p>
+	        	<img alt="" src="images/click-distribution-serp.jpg" width="420px" style="float:left;margin:0 10px 3px 0;">
+	        	<p>Plusieurs facteurs sont pris en compte afin de calculer l'ordre des résultats, parmis ceux ci :</p>
+	        	<p>La pertinence par rapport à la recherche.</p>
+	        	<p>La popularité du site via un équivalent du <a href="http://en.wikipedia.org/wiki/PageRank" class="external" target="_blank">PageRank</a>.</p>
+	        	<p>Des ingrédients secrets pour chaque moteur de recherche.</p>
+	        	<p>Il est donc important de définir les <b>mots clés</b> sur lesquels on souhaite être référencé et de viser a être mieux référencé que ses concurrents sur ce segment.</p>
+	        	<br/>
+	        	<p><a href="http://www.google.fr/trends" class="external" target="_blank">Google trends</a> permet de savoir quels sont les mots clés qui fonctionnent le mieux.</p> 
+	        </section>
+	        <p class="source">http://www.seoresearcher.com/distribution-of-clicks-on-googles-serps-and-eye-tracking-analysis.htm</p>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>SEO</header>
+	        <section>
+	        	<p>L'optimisation pour les moteurs de recherche (SEO) est un ensemble de techniques visant à favoriser la compréhension de la thématique et du contenu d'une ou de l'ensemble des pages d'un site Web par les moteurs de recherche.</p>
+	        	<p>Comme une bonne partie des algorithmes des moteurs de recherche sont secrets, il s'agit d'un travail itératif, basé sur la mesure de résultats.</p>
+	        	<p>Malgré l'incertitude, il existe des bonnes pratiques lors du développement de sites webs.</p>
+	        	<p>Nous allons voir quelques unes de ces techniques.</p>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Search_engine_optimization</p>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Maitrise du crawling</header>
+	        <section>
+	        	<p>Le crawling est la visite régulière des sites par des robots (ou spiders) afin de les indexer.</p>
+	        	<p>Le fichier robots.txt, à la racine d'un site, permet d'autoriser ou interdire le parcours de certaines zones du site. par exemple <a href="http://www.lemonde.fr/robots.txt" class="external" target="_blank">robots.txt sur lemonde.fr</a></p>
+	        	<pre>User-agent: *
+Disallow: /mon-repertoire/</pre>
+				<p>La balise meta robots indique comment traiter la page.</p>
+				<pre>&lt;meta name="robots" content="index,follow"&gt;</pre>
+				<p>La balise link canonical donne l'url canonique dans le cas ou un contenu peut être accédé par plusieurs urls. Cela évite que la page soit marquée comme un contenu dupliqué.</p>
+				<pre>&lt;meta rel="canonical" href="http://mydomain.fr/bonne-url"&gt;</pre>
+	        	<p>Les principaux robots sont Googlebot, MsnBot (Microsoft), Slurp (Yahoo!) et Exabot (Exalead)</p>
+	        </section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>L'url</header>
+	        <section>
+	        	<p>L'url est un élément important afin d'être bien référencé, elle doit être porteuse de sens.</p>
+	        	<p>Certains sites proposent encore des urls vides de sens, construites à partir d'éléments techniques.</p>
+	        	<pre>http://joomlacode.org/gf/project/jea/forum/
+  ?action=ForumBrowse&forum_id=8179&_forum_action=ForumMessageBrowse&thread_id=19498</pre>
+  				<p>Les urls sont interprétées par les moteurs de recherche. Le séparateur de mot est le tiret (-).</p>
+  				<p>Une url doit être lisible, construite comme un élément d'une arborescence de répertoires. Il est pratique de pouvoir taper une url à la main.</p>
+	        	<p>Une bonne pratique est de construire des arborescence cohérentes et d'utiliser des identifiants de type <a href="http://codex.wordpress.org/Glossary#Slug" class="external" target="_blank">slugs (wordpress)</a> à la place d'identifiants numériques ou techniques.</p>
+	        	<pre>http://monsite.fr/une-categorie/le-titre-de-mon-article</pre>
+	        	<p>Si le référencement dans google news est souhaité, il faut que l'url comporte une séquence de 3 chiffres minimum.</p>
+	        </section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Les zones chaudes dans la page</header>
+	        <section>
+	        	<p>Au sein d'une page, l'élément le plus important est le <b>contenu texte</b>. Une structure html simple et un contenu texte riche est le premier levier de référecement. La balise <b>h1</b> est très importante.</p>
+	        	<p>Dans le header de la page, les balises meta title et description sont très importantes.</p>
+	        	<pre>
+&lt;title>titre de l'article - monsite.fr&lt;/title&gt;
+&lt;meta name="description" content="accroche de l'article" /&gt;
+&lt;meta name="keywords" content="mots clés" /&gt;</pre>
+				<p>Cela se retrouve directement dans les résultats de recherche.</p>
+				<img alt="" src="images/google-search-result.png" style="margin:0 40px;">
+	        	<p>La balise meta keywords est beaucoup moins importantes mais contribue néanmoins.</p>
+	        	<pre>&lt;meta name="keywords" content="mots clés" /&gt;</pre>
+	        </section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Syndication</header>
+	        <section>
+	        	<p>La syndication de contenu web est la mise à disposition d'un contenu propre à un site afin qu'il puisse être utilisé par d'autres services.</p>
+	        	<p>Les services peuvent être des aggrégateurs, des partenaires ou bien même des tiers inconnus.</p>
+	        	<p>L'intérêt pour la source est d'augmenter son trafic en offrant de nouveaux points d'entrée.</p>
+	        	<p>Les formats de syndication les plus courant sont les format RSS et ATOM</p>
+	        </section>
+	        <p class="source">http://fr.wikipedia.org/wiki/RSS</p>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>RSS</header>
+	        <section>
+	        	<p>Le format RSS est très simple à comprendre.</p>
+	        	<pre>
+&lt;?xml version="1.0" encoding="iso-8859-1"?&gt;
+&lt;rss version="2.0"&gt;
+   &lt;channel&gt;
+      &lt;title&gt;Mon site&lt;/title&gt;
+      &lt;description&gt;Ceci est un exemple de flux RSS 2.0&lt;/description&gt;
+      &lt;lastBuildDate&gt;Sat, 07 Sep 2002 00:00:01 GMT&lt;/lastBuildDate&gt;
+      &lt;link&gt;http://www.example.org&lt;/link&gt;
+      &lt;item&gt;
+         &lt;title&gt;Actualité N°1&lt;/title&gt;
+         &lt;description&gt;Ceci est ma première actualité&lt;/description&gt;
+         &lt;pubDate&gt;Sat, 07 Sep 2002 00:00:01 GMT&lt;/pubDate&gt;
+         &lt;link&gt;http://www.example.org/actu1&lt;/link&gt;
+      &lt;/item&gt;
+      ...
+   &lt;/channel&gt;
+&lt;/rss&gt;</pre>
+	        	<p>Il est possible depuis une page web, d'indiquer la disponibilité d'un flux RSS</p>
+	        	<pre>&lt;link rel="alternate" type="application/rss+xml"
+                        href="/flux.rss" title="description du flux" /&gt;</pre>
+	        </section>
+	        <p class="source">http://fr.wikipedia.org/wiki/RSS</p>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Sitemap</header>
+	        <section>
+	        	<p>Le sitemap est un format XML (ou texte) permettant de mettre en avant ses contenus pour les moteurs de recherche et <b>google news</b>.</p>
+	        	<p>C'est particulièrement pratique dans le cas où certains contenus sont difficilement accessibles par ailleurs.</p>
+	        	<pre>
+&lt;?xml version="1.0" encoding="utf-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+	&lt;url&gt;
+		&lt;loc&gt;http://example.com/1&lt;/loc&gt;
+		&lt;lastmod&gt;2006-11-18&lt;/lastmod&gt;
+		&lt;changefreq&gt;daily&lt;/changefreq&gt;
+	&lt;/url&gt;
+	...
+&lt;/urlset&gt;</pre>
+	        	<p>Une fois créé le sitemap peut être indiqué dans le robots.txt ou soumis directement aux moteurs de recherche.</p>
+	        	<pre>Sitemap: &lt;sitemap_location&gt;</pre>
+	        </section>
+	        <p class="source">http://en.wikipedia.org/wiki/Sitemaps</p>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>Outils pour les webmasters</header>
+	        <section>
+	        	<p>Les opérateurs de moteur de recherche proposent des outils afin d'aider les propriétaire de sites a comprendre comment le site est vu par le robot d'exploration.</p>
+	        	<img alt="" src="images/google-webmaster-tools.png" style="width:550px;float:left;margin:0 10px;">
+	        	<p>Voici par exemple un des rapports de <a href="https://www.google.com/webmasters/tools" class="external" target="_blank">google webmaster tools</a></p>
+	        </section>
+	    </div>
+	    
+	    <div class="slide">
+	      	<header>A lire</header>
+	        <section>
+	        	<p>Pour aller plus loin :</p>
+	        	<p><a href="http://referencement.abondance.com/" class="external" target="_blank">Un guide pratique sur le référencement en 20 conseils</a></p>
+	        	<p>Le livre de référencement en français de Olivier Andrieu</p>
+				<img alt="" src="images/reussir-son-referencement-web.jpg" style="width:300px;float:left;margin:0 250px;">
+	        </section>
+	    </div>
+      </div>
+      <!-- slides -->
+
+    </div> <!-- presentation -->
+
+  	</body>
+  </html>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" version="2.5">
+  <display-name>jee</display-name>
+  <servlet>
+    <description></description>
+    <display-name>HelloWorldServlet</display-name>
+    <servlet-name>HelloWorldServlet</servlet-name>
+    <servlet-class>fr.prez.jee.HelloWorldServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloWorldServlet</servlet-name>
+    <url-pattern>/HelloWorldServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>HelloWorldRedirectServlet</display-name>
+    <servlet-name>HelloWorldRedirectServlet</servlet-name>
+    <servlet-class>fr.prez.jee.HelloWorldRedirectServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloWorldRedirectServlet</servlet-name>
+    <url-pattern>/HelloWorldRedirectServlet</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>HelloWorldSessionServlet</display-name>
+    <servlet-name>HelloWorldSessionServlet</servlet-name>
+    <servlet-class>fr.prez.jee.HelloWorldSessionServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>HelloWorldSessionServlet</servlet-name>
+    <url-pattern>/HelloWorldSessionServlet</url-pattern>
+  </servlet-mapping>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/jsp/500.jsp</location>
+  </error-page>
+  <filter>
+    <display-name>GuardFilter</display-name>
+    <filter-name>GuardFilter</filter-name>
+    <filter-class>fr.prez.jee.GuardFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>GuardFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  <filter>
+   <filter-name>monitoring</filter-name>
+   <filter-class>net.bull.javamelody.MonitoringFilter</filter-class>
+</filter>
+<filter-mapping>
+   <filter-name>monitoring</filter-name>
+   <url-pattern>/*</url-pattern>
+</filter-mapping>
+<listener>
+   <listener-class>net.bull.javamelody.SessionListener</listener-class>
+</listener>
+</web-app>

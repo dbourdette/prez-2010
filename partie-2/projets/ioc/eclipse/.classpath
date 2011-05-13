@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="lib" path="lib/spring-aop-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-asm-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-aspects-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-beans-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-context-3.0.5.RELEASE.jar" sourcepath="lib/spring-context-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-context-support-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-core-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-expression-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-jdbc-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-orm-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-test-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-tx-3.0.5.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-aop-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-asm-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-aspects-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-beans-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-context-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-context-support-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-core-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-expression-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-jdbc-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-orm-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-test-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/spring-tx-3.0.5.RELEASE-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance-1.0-sources.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/aspectjlib-1.5.3.jar"/>
+	<classpathentry kind="lib" path="lib/aspectjrt-1.5.3.jar"/>
+	<classpathentry kind="lib" path="lib/aspectjweaver-1.5.3.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

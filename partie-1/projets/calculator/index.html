@@ -1,0 +1,309 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>Calculatrice</title>
+
+		<link href="../../../static/css.css" rel="stylesheet" type="text/css">
+	    <link id="prettify-link" href="../../../static/prettify.css" rel="stylesheet" disabled="">
+	    <link href="../../../static/default.css" class="theme" rel="stylesheet">
+	  	
+	  	<link href="../../../static/dev.css" class="theme" rel="stylesheet">
+	  	<link href="../../../static/project.css" class="theme" rel="stylesheet">
+	    
+	    <script type="text/javascript" src="../../../static/jquery/jquery-1.4.4.min.js"></script>
+		<script type="text/javascript" src="../../../static/jquery/jquery.xcolor.js"></script>
+		<script type="text/javascript" src="calculator.js"></script>
+		<script type="text/javascript" src="keys.js"></script>
+		<script type="text/javascript" src="shortcuts.js"></script>
+		
+		<link href="layout.css" rel="stylesheet">
+		<link href="style.css" rel="stylesheet">
+	</head>
+<body>
+	<div id="project">
+		<h1>Calculatrice</h1>
+		<h2>Présentation</h2>
+		<p>Nous allons faire fonctionner la calculatrice suivante.</p>
+		<div id="calculator">
+			<div class="result" id="result">0</div>
+			<div class="digits">
+				<span>CE</span>
+				<span>C</span>
+				<span class="empty"></span>
+				<span class="empty"></span>
+				<span>7</span>
+				<span>8</span>
+				<span>9</span>
+				<span>-</span>
+				<span>4</span>
+				<span>5</span>
+				<span>6</span>
+				<span>+</span>
+				<span>1</span>
+				<span>2</span>
+				<span>3</span>
+				<span>=</span>
+			</div>
+			<div style="clear: both;"></div>
+		</div>
+		<p>Les ressources disponibles pour ce projet :</p>
+		<ul>
+			<li><a href="index.html">index.html</a> : ce fichier, il suffit de recharger cette page afin de tester la feuille de style et le javascript</li>
+			<li><a href="layout.css" target="_blank">layout.css</a> : la mise en forme de base</li>
+			<li><a href="style.css" target="_blank">style.css</a> : les styles additionnels</li>
+			<li><a href="calculator.js" target="_blank">calculator.js</a> : le code javascript avec le moteur</li>
+			<li><a href="keys.js" target="_blank">keys.js</a> : le code javascript avec le binding des touches</li>
+			<li><a href="shortcut.js" target="_blank">shortcut.js</a> : le code javascript avec le binding des raccourcis clavier</li>
+			<li><a href="test.html" target="_blank">test.html</a> : les tests unitaires</li>
+		</ul>
+		<p>En pratique toutes les feuilles de style et le code javascript seraient régroupés afin de limiter le nombre de ressources pour la page.</p>
+		<h2>le code HTML</h2>
+		<p>Voici le code HTML utilisé pour cette calculatrice.</p>
+		<pre>
+&lt;div id="calculator"&gt;
+	&lt;div class="result" id="result"&gt;0&lt;/div&gt;
+	&lt;div class="digits"&gt;
+		&lt;span&gt;CE&lt;/span&gt;
+		&lt;span&gt;C&lt;/span&gt;
+		&lt;span class="empty"&gt;&lt;/span&gt;
+		&lt;span class="empty"&gt;&lt;/span&gt;
+		&lt;span&gt;7&lt;/span&gt;
+		&lt;span&gt;8&lt;/span&gt;
+		&lt;span&gt;9&lt;/span&gt;
+		&lt;span&gt;-&lt;/span&gt;
+		&lt;span&gt;4&lt;/span&gt;
+		&lt;span&gt;5&lt;/span&gt;
+		&lt;span&gt;6&lt;/span&gt;
+		&lt;span&gt;+&lt;/span&gt;
+		&lt;span&gt;1&lt;/span&gt;
+		&lt;span&gt;2&lt;/span&gt;
+		&lt;span&gt;3&lt;/span&gt;
+		&lt;span&gt;=&lt;/span&gt;
+	&lt;/div&gt;
+	&lt;div style="clear: both;"&gt;&lt;/div&gt;
+&lt;/div&gt;</pre>
+		<p>On distingue la zone de résultat et les différents boutons</p>
+		<h2>le style</h2>
+		<p>Nous allons améliorer un peu le look de notre widget grâce au fichier style.css.</p>
+		<h3>la calculatrice</h3>
+		<p>En premier, nous allons mettre une couleur de fond E1EAF5 à la div calculator.</p>
+		<p>On ajoute un border de type solid de 2 px et de couleur 8E97AD</p>
+		<h3>la div de résultat</h3>
+		<p>Ensuite, on applique un dégradé à la zone de résultat.</p>
+		<pre>background : -webkit-gradient(linear, 0 0, 0 bottom, from(#E1EAF5), to(white));</pre>
+		<p>Des exemples d'outils afin d'aider à faire des gradients : 
+			<a href="http://gradients.glrzad.com/" class="external" target="_blank">CSS3 Gradient Generator</a>
+			et
+			<a href="http://schlaeps.com/mootools/gradient-creator/" class="external" target="_blank">Gradient creator</a>
+		</p>
+		<p>Enfin, on applique un border de type solid de 1px de couleur 8E97AD.</p>
+		<h3>les boutons</h3>
+		<p>Les boutons recoivent un dégradé un peu plus complexe.</p>
+<pre>background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.37, rgb(216,227,240)),
+    color-stop(0.53, rgb(239,243,247))
+);</pre>
+		<p>Et un border identique à la div de résultat.</p>
+		<h3>le survol des boutons</h3>
+		<p>Le survol d'un élement se gère en css en ajoutant le suffixe :hover sur le sélecteur.</p>
+		<pre>div:hover {...}</pre>
+		<p>On ajout donc le dégradé suivant, uniquement lorsque la souris survole un bouton</p>
+<pre>background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.37, rgb(255,214,119)),
+    color-stop(0.53, rgb(255,237,217))
+);</pre>
+		<p>Et un border solid de couleur FFDB00</p>
+		<h3>le click sur les boutons</h3>
+		<p>Le click sur un élement se gère en css en ajoutant le suffixe :active sur le sélecteur.</p>
+		<p>On ajout donc le dégradé suivant, uniquement lorsque la souris survole un bouton</p>
+<pre>background-image: -webkit-gradient(
+    linear,
+    left bottom,
+    left top,
+    color-stop(0.37, rgb(244,200,97)),
+    color-stop(0.53, rgb(245,221,179))
+);</pre>
+		<p>Et un border solid de couleur C29B29</p>
+		<h3>Supprimer la sélection de texte</h3>
+		<p>Il est possible de supprimer la sélection de texte sur la calculatrice afin d'éviter des effets de sélection assez disgracieux.</p>
+		<pre>-webkit-user-select:none;</pre>
+		<h2>La classe Calculator</h2>
+		<p>Afin de gérer cette widget nous créons une classe Calculator dans calculator.js</p>
+		<pre>
+function Calculator() { 
+}
+
+Calculator.prototype.compute = function(input) {
+   <span class="comment">// change l'état interne</span>
+   <span class="comment">// retourne la valeur à afficher</span> 
+};</pre>
+		<p>Cette classe à une interface simple et doit être capable de gérer tous les boutons de la calculatrice.</p>
+		<p>Afin de faire fonctionner l'interface, nous allons commencer par proposer une implémentation très simple.</p>
+		<pre>
+function Calculator() { 
+}
+
+Calculator.prototype.compute = function(input) {
+   return input;
+};</pre>
+		<p>Nous corrigerons cette implémentation plus tard.</p>
+		<p>Avant de brancher l'interface, il nous reste a Déclarer une instance de Calculator juste après notre déclaration de la classe.</p>
+		<pre>
+var calc = new Calculator();</pre>
+		<h2>La gestions des clicks</h2>
+		<p>Le fichier keys.js va contenir le binding entre les touches et l'appel de la méthode compute.</p>
+		<pre>
+function bindButtons() {
+   <span class="comment">// pour chaque touche de la calculatrice</span>
+   <span class="comment">// appelle compute sur la calculatrice</span>
+   <span class="comment">// et affiche le résultat</span>
+}</pre>
+		<p>Nous allons utiliser jquery afin de faciler l'écriture du code.</p>
+		<p>Le pseudo code à transcrire en javascript / jquery est le suivant :</p>
+		<pre>
+<span class="comment">pour chaque span {
+   sur un click sur le span {
+      texte = calc.compute(texte du span)
+      
+      le résultat est mis à jour avec le texte
+   }
+}</span></pre>
+		<p>La doc jquery intéressante : 
+			<a href="http://api.jquery.com/category/selectors/" class="external" target="_blank">les sélecteurs</a>,
+			<a href="http://api.jquery.com/each/" class="external" target="_blank">la fonction each()</a>,
+			<a href="http://api.jquery.com/click/" class="external" target="_blank">la fonction click()</a> et
+			<a href="http://api.jquery.com/text/" class="external" target="_blank">la fonction text()</a>,
+		</p>
+		<p>Afin que la méthode soit appelée au chargement de la page, on rajoute :</p>
+		<pre>$(document).ready(function() { bindButtons(); });</pre>
+		<h2>Les raccourcis clavier</h2>
+		<p>Le fichiers shortcuts.js va contenir une surcouche de la gestion des touches.</p>
+		<pre>
+function onKeyPress(keyCode) {
+   <span class="comment">// trouver le span correspondant au keyCode</span>
+   <span class="comment">// faire un click sur le span</span>
+}</pre>
+		<p>La fonction suivante pourra être utile (<a href="http://www.cambiaresearch.com/c4/702b8cd1-e5b0-42e6-83ac-25f0306e3e25/Javascript-Char-Codes-Key-Codes.aspx" class="external" target="_blank">key codes</a>)</p>
+		<pre>
+function keyCodeToButton(keyCode) {
+	var mapping = {48 : '0',
+			49 : '1',
+			50 : '2',
+			51 : '3',
+			52 : '4',
+			53 : '5',
+			54 : '6',
+			55 : '7',
+			56 : '8',
+			57 : '9',
+			43 : '+',
+			45 : '-',
+			13 : '=',
+			61 : '=',
+			96 : '0',
+			97 : '1',
+			98 : '2',
+			99 : '3',
+			100 : '4',
+			101 : '5',
+			102 : '6',
+			103 : '7',
+			104 : '8',
+			105 : '9',
+			107 : '+',
+			109 : '-',
+			27 : 'C'};
+	
+	return mapping[keyCode];
+}
+</pre>
+		<p>La doc jquery en rapport : 
+			<a href="http://api.jquery.com/keydown/" class="external" target="_blank">l'évènement keydown</a> et
+			<a href="http://api.jquery.com/contains-selector/" class="external" target="_blank">le sélecteur contains</a>
+		</p>
+		<h2>La méthode compute</h2>
+		<p>Nous allons maintenant implémenter la méthode compute.</p>
+		<p>Pour nous aider, le fichier <a href="test.html" target="_blank">test.html</a> définit des tests unitaires <a href="http://docs.jquery.com/Qunit" class="external" target="_blank">qunit</a> :</p>
+		<pre>equals( compute('1') , 1, "Result should be 1" );</pre>
+		<p>Nous allons donc faire passer progressivement tous les tests à notre calculatrice.</p>
+		<p>Afin de rendre chaque test indépendant des autres, nous utilisons la définition d'un <a href="http://docs.jquery.com/QUnit/module#namelifecycle" class="external" target="_blank">module</a>.</p>
+		<pre>
+module("calculator", {
+   setup: function() {
+      calc = new Calculator(); <span class="comment">// une nouvelle calculatrice pour chaque test</span>
+   }
+});</pre>
+		<h3>one digit</h3>
+		<p>Le premier test dit que si l'on tape 1, compute doit retourner 1.</p>
+		<p>Avec notre implémentation de base, cela fonctionne déjà.</p>
+		<h3>one operator</h3>
+		<p>Ce test ne passe pas.</p>
+		<p>Il nous faut donc faire la différence entre les chiffres et les opérateurs.</p>
+		<p>La méthode suivante va nous aider à faire fonctionner ce test sur la méthode compute.</p>
+		<pre>
+Calculator.prototype.isDigit = function(input) {
+   var digits = "1234567890";
+   if (input && input.length == 1 && digits.indexOf(input)!=-1) {
+      return true;
+   } else {
+      return false;
+   }
+};</pre>
+		<h3>clear et clear entry</h3>
+		<p>Ces tests s'assurent que les boutons C et CE fonctionnent correctement</p>
+		<p>Ils devraient passer assez facilement pour le moment mais au fur et à mesure que la méthode compute va grossir, il seront certainement utiles.</p>
+		<h3>numbers</h3>
+		<p>Si on entre 1, puis 1 et puis 5, c'est bien 115 qui doit apparaitre.</p>
+		<p>Notre Calculatrice va donc devoir garder un état interne lui permettant de construire le nombre 115 alors que compute est appelé 3 fois.</p>
+		<h3>add</h3>
+		<p>Nous allons supporter notre première opération.</p>
+		<p>Comme le test numbers passe bien, 5 et 1 font bien 51.</p>
+		<p>Le + doit donc renvoyer 51.</p>
+		<p>La méthode suivante va nous aider à savoir si l'input est un opérateur</p>
+		<pre>
+Calculator.prototype.isOperator = function(input) {
+   var operators = "-+";
+   if (input && input.length == 1 && operators.indexOf(input)!=-1) {
+      return true;
+   } else {
+      return false;
+   }
+};</pre>
+		<p>5, 1 et + font 51.</p>
+		<p>Un nouveau 1 doit donner 1 : l'état interne est donc remis à 0 si on tape un chiffre apres un opérateur.</p>
+		<p>On peut tracer cette information avec l'atttribut suivant:</p>
+		<pre>this.wasOperator = false;</pre>
+		<p>5, 1, +, 1 font 1</p>
+		<p>Pour terminer l'input = a pour effet d'aller chercher la valeur qui a été mise de coté au moment où l'on a tapé 1,
+		d'aller chercher le dernier opérateur tapé et la valeur courante afin d'effectuer l'opération.
+		</p>
+		<p>Il nous faut donc :<br/>
+		- mettre la valeur de coté lorsque l'on entre un opérateur
+		- mettre l'opérateur de coté lorsque l'on entre un opérateur
+		- gérer l'input =</p>
+		<p>La méthode parseInt permet de tranformer une chaine de charactèrs en entier.</p>
+		<h3>substract</h3>
+		<p>Cette opération est très proche de la précédente et diffère qu'au moment de la gestion de l'input =</p>
+		<h3>equals</h3>
+		<p>Le signe = a une action particulière, si c'est un chiffre juste après, on repart dans l'état initial avec juste le chiffre qui vient d'être tapé.</p>
+		<p>On peut donc utliser un flag wasEquals qui va servir juste pour l'appel suivant.</p>
+		<p>Il ne faut pas oublier de remettre ce flag a false lors de l'appel suivant une fois cet état exploité.</p>
+		<h3>add add substract</h3>
+		<p>Ce test dit que l'usage d'un opérateur alors qu'il y a déjà une valeur mise de coté doit effectuer l'opération comme le ferait l'input =.</p>
+		<h2>Et ainsi de suite</h2>
+		<p>Nous sommes arrivés à un point où notre calculatrice fonctionne à peu près.</p>
+		<p>Il reste des bugs et surtout nous n'avons implémenté que 2 opérateurs, oublié les virgules et sans doute beaucoup d'autres choses.</p>
+		<p>Les tests nous ont conduits à une implémentation parmis d'autres.</p>
+		<p>Nous pourrions donc continuer à ajouter des tests afin de faire marcher de nouveaux cas.</p>
+		<p>Ce qui est essentiel, c'est que les tests existants vont nous permettre de refactorer et modifier le code
+		 en étant sûr que nous n'avons pas cassé un comportement que nous avions déjà testé.</p>
+	</div>
+</body>
+</html>

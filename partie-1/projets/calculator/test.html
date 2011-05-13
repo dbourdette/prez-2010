@@ -1,0 +1,100 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Calculator unit test</title>
+
+<link href="style.css" rel="stylesheet">
+
+<script type="text/javascript" src="../../../static/jquery/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="../../../static/jquery/jquery.xcolor.js"></script>
+
+<link href="../../../static/qunit/qunit.css" rel="stylesheet">
+<script type="text/javascript" src="../../../static/qunit/qunit.js"></script>
+
+<script type="text/javascript" src="calculator.js"></script>
+</head>
+<body>
+	<script>
+	  $(document).ready(function(){
+	    
+		module("calculator", {
+			setup: function() {
+				calc = new Calculator();
+			}
+		});
+		  
+		test("one digit", function() {
+			equals( calc.compute('1') , "1", "Result should be 1" );
+		});
+		  
+		test("one operator", function() {
+			equals( calc.compute('+') , "0", "Result should be 0" );
+		});
+		
+		test("clear", function() {
+			equals( calc.compute('1') , "1", "Result should be 1" );
+			equals( calc.compute('C') , "0", "Result should be 0" );
+		});
+		
+		test("clear entry", function() {
+			equals( calc.compute('1') , "1", "Result should be 1" );
+			equals( calc.compute('CE') , "0", "Result should be 0" );
+		});
+
+		test("numbers", function() {
+		  	equals( calc.compute('1') , "1", "Result should be 1" );
+		  	equals( calc.compute('1') , "11", "Result should be 11" );
+		  	equals( calc.compute('5') , "115", "Result should be 115" );
+		});
+
+		test("add", function() {
+		  	equals( calc.compute('5') , "5", "Result should be 5" );
+		  	equals( calc.compute('1') , "51", "Result should be 51" );
+			equals( calc.compute('+') , "51", "Result should be 51" );
+			equals( calc.compute('1') , "1", "Result should be 1" );
+			equals( calc.compute('=') , "52", "Result should be 52" );
+		});
+
+		test("substract", function() {
+		  	equals( calc.compute('5') , "5", "Result should be 5" );
+		  	equals( calc.compute('1') , "51", "Result should be 51" );
+			equals( calc.compute('-') , "51", "Result should be 51" );
+			equals( calc.compute('1') , "1", "Result should be 1" );
+			equals( calc.compute('=') , "50", "Result should be 50" );
+		});
+
+		test("equals", function() {
+		  	equals( calc.compute('7') , "7", "Result should be 7" );
+		  	equals( calc.compute('=') , "7", "Result should be 7" );
+			equals( calc.compute('3') , "3", "Result should be 3" );
+		});
+
+		test("equals", function() {
+		  	equals( calc.compute('7') , "7", "Result should be 7" );
+		  	equals( calc.compute('=') , "7", "Result should be 7" );
+			equals( calc.compute('3') , "3", "Result should be 3" );
+		});
+
+		test("add add substract", function() {
+		  	equals( calc.compute('1') , "1", "Result should be 1" );
+		  	equals( calc.compute('+') , "1", "Result should be 1" );
+			equals( calc.compute('5') , "5", "Result should be 5" );
+		  	equals( calc.compute('+') , "6", "Result should be 6" );
+			equals( calc.compute('4') , "4", "Result should be 4" );
+		  	equals( calc.compute('-') , "10", "Result should be 10" );
+			equals( calc.compute('2') , "2", "Result should be 2" );
+			equals( calc.compute('=') , "8", "Result should be 8" );
+		});
+	
+	  });
+	</script>
+	
+	<h1 id="qunit-header">Calculator unit tests</h1>
+	<h2 id="qunit-banner"></h2>
+	<div id="qunit-testrunner-toolbar"></div>
+	<h2 id="qunit-userAgent"></h2>
+	<ol id="qunit-tests"></ol>
+	<div id="qunit-fixture">test markup, will be hidden</div>
+</body>
+</html>
